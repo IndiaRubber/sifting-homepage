@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sifting Technologies Inc. | Doktor Clok</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="scanlines"></div>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand-block">
+        <div class="logo-mark" aria-hidden="true">S</div>
+        <div>
+          <p class="eyebrow">Sifting Technologies Inc.</p>
+          <h1>Doktor Clok Systems Portal</h1>
+        </div>
+      </div>
+      <nav>
+        <a href="#services">Divisions</a>
+        <a href="#access">Access</a>
+        <a href="#status">Status</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="classification">PUBLIC-FACING NODE // WWW.DOKTORCLOK.COM</p>
+          <h2>Perception layers for a world that keeps changing underneath us.</h2>
+          <p class="lede">
+            Sifting Technologies builds resilient interfaces, diagnostic tools, and interpretive systems
+            for environments where conventional observation is no longer enough.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#access">Request Access</a>
+            <a class="button secondary" href="https://search.doktorclok.com">Open Search Node</a>
+          </div>
+        </div>
+
+        <aside class="terminal-card" aria-label="System status terminal">
+          <div class="terminal-header">
+            <span></span><span></span><span></span>
+            <strong>helios.status</strong>
+          </div>
+          <div class="terminal-body">
+            <p><span>&gt;</span> HELIOS ASSISTIVE INSTANCE: ONLINE</p>
+            <p><span>&gt;</span> DOMAIN CONTROL: CLOUDFLARE EDGE</p>
+            <p><span>&gt;</span> SEARCH NODE: ACTIVE</p>
+            <p><span>&gt;</span> PUBLIC PORTAL: STAGING</p>
+            <p class="blink"><span>&gt;</span> Awaiting operator input...</p>
+          </div>
+        </aside>
+      </section>
+
+      <section id="services" class="grid">
+        <article class="panel">
+          <p class="panel-number">01</p>
+          <h3>Sifting Interfaces</h3>
+          <p>Augmented dashboards, mission consoles, and CLI training environments for technical operators.</p>
+        </article>
+        <article class="panel">
+          <p class="panel-number">02</p>
+          <h3>Search & Signal</h3>
+          <p>Private search routing, knowledge discovery, and signal extraction from noisy information streams.</p>
+        </article>
+        <article class="panel">
+          <p class="panel-number">03</p>
+          <h3>Minerva Research</h3>
+          <p>Experimental tools for perception, simulation, and narrative reconstruction under unstable conditions.</p>
+        </article>
+      </section>
+
+      <section id="access" class="split-card">
+        <div>
+          <p class="eyebrow">Operator Notice</p>
+          <h2>Access is intentionally limited.</h2>
+          <p>
+            This portal is a lightweight landing page for Doktor Clok services and Sifting Technologies
+            project nodes. Internal tools may require tunnel authentication or local authorization.
+          </p>
+        </div>
+        <div class="access-list">
+          <a href="https://search.doktorclok.com">
+            <span>Search Node</span>
+            <small>search.doktorclok.com</small>
+          </a>
+          <a href="https://network.doktorclok.com">
+  		<span>Network Simulation Node</span>
+  		<small>network.doktorclok.com</small>
+	  </a>
+          <a href="mailto:admin@doktorclok.com">
+            <span>Contact Operator</span>
+            <small>admin@doktorclok.com</small>
+          </a>
+        </div>
+      </section>
+
+      <section id="status" class="status-strip">
+        <div>
+          <strong>Edge</strong>
+          <span>Cloudflare</span>
+        </div>
+        <div>
+          <strong>Portal</strong>
+          <span>Static Build</span>
+        </div>
+        <div>
+          <strong>Security</strong>
+          <span>DNS Managed</span>
+        </div>
+        <div>
+          <strong>Theme</strong>
+          <span>Sifting Technologies</span>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>© <span id="year"></span> Sifting Technologies Inc. // Doktor Clok Systems</p>
+      <p class="footer-note">This public node contains no restricted Minerva materials.</p>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
