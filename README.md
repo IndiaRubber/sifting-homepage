@@ -1,15 +1,20 @@
-# Sifting Technologies Inc. landing page
+# exSifting author landing page
 
-Quick static homepage for `www.doktorclok.com`.
+A framework-free author landing page for `www.exsifting.com`.
 
-## Files
+## Included
 
-- `index.html`
-- `style.css`
+- `index.html` — new author-first homepage
+- `style.css` — responsive editorial styling
+- `archive/index.html` — preserved in-universe homepage
+- `archive/style.css` — original portal styling
 
-## Deploy with Cloudflare Pages
+## Deploy
 
-1. Create a new Pages project.
-2. Upload this folder, or connect it to a GitHub repo.
-3. Add the custom domain: `www.doktorclok.com`.
-4. In DNS, make sure `www` points to the Pages project.
+1. Create a backup branch or download the current repository.
+2. Copy these files into the repository root.
+3. Keep the existing `CNAME` and `wrangler.jsonc` files already in GitHub.
+4. Commit and push to `main`.
+5. Cloudflare Pages should redeploy automatically.
+
+No framework, package install, or build command is required.
