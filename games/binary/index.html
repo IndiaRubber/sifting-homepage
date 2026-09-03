@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signal Eight | exSifting</title>
+  <meta name="description" content="Practice fast 8-bit binary and decimal conversion in Signal Eight." />
+  <meta name="theme-color" content="#05080d" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#game">Skip to game</a>
+  <header class="topbar">
+    <a class="brand" href="../../"><span aria-hidden="true">X</span> exSifting</a>
+    <div class="status"><i></i> DISTRICT 3 TRAINING NODE</div>
+    <a href="../../#beyond">Exit simulation</a>
+  </header>
+
+  <main>
+    <section class="intro">
+      <p class="eyebrow">Network operations drill // module 08</p>
+      <h1>Signal <em>Eight</em></h1>
+      <p>Convert decimal and binary octets before the queue breaches the console. Every bit matters.</p>
+    </section>
+
+    <section id="game" class="game-shell" aria-label="Signal Eight binary game">
+      <div class="game-header">
+        <div><span>Score</span><strong id="score">000000</strong></div>
+        <div><span>Level</span><strong id="level">01</strong></div>
+        <div><span>Cleared</span><strong id="cleared">00</strong></div>
+        <div><span>Best</span><strong id="best">000000</strong></div>
+      </div>
+
+      <div class="board-wrap">
+        <div class="weights" aria-hidden="true">
+          <span>128</span><span>64</span><span>32</span><span>16</span><span>8</span><span>4</span><span>2</span><span>1</span><span>=</span><span>DEC</span>
+        </div>
+        <div id="board" class="board" aria-live="polite"></div>
+        <div id="start-panel" class="start-panel">
+          <p class="eyebrow">HELIOS readiness check</p>
+          <h2>Translate the signal.</h2>
+          <p>Toggle bits to match a decimal target, or enter the decimal value represented by a fixed octet.</p>
+          <button id="start" class="primary">Begin drill</button>
+          <button id="how" class="secondary">How to play</button>
+        </div>
+        <div id="message" class="message" role="status"></div>
+      </div>
+
+      <div class="controls">
+        <button id="pause" disabled>Pause</button>
+        <button id="end" disabled>End drill</button>
+        <span>Keys: <kbd>1–8</kbd> toggle bits · type numbers · <kbd>Enter</kbd> submit · <kbd>Space</kbd> pause</span>
+      </div>
+    </section>
+
+    <section id="instructions" class="instructions">
+      <div><p class="eyebrow">Operator notes</p><h2>Read an octet.</h2></div>
+      <div class="instruction-grid">
+        <article><b>01</b><h3>Binary → decimal</h3><p>Add the column values wherever the bit is 1, enter the total, then submit.</p></article>
+        <article><b>02</b><h3>Decimal → binary</h3><p>Toggle the eight bits until their active column values equal the target.</p></article>
+        <article><b>03</b><h3>Stay ahead</h3><p>New rows arrive faster each level. Seven unresolved rows ends the drill.</p></article>
+      </div>
+    </section>
+  </main>
+  <footer>Original learning game inspired by classic binary conversion drills. Not affiliated with Cisco.</footer>
+  <script src="./game.js"></script>
+</body>
+</html>
