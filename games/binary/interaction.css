@@ -1,0 +1,25 @@
+.prompt {
+  margin: 0 12px 14px;
+  padding: 10px 13px;
+  color: var(--cyan);
+  background: #09131b;
+  border-left: 3px solid var(--cyan);
+  font: 700 0.72rem Consolas, monospace;
+  letter-spacing: 0.04em;
+}
+
+.decimal:not(:disabled):focus {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+.controls .submit-answer {
+  color: #06120f;
+  background: var(--green);
+  border-color: var(--green);
+  font-weight: 800;
+}
+
+@media (max-width: 720px) {
+  .prompt { margin-inline: 4px; }
+}

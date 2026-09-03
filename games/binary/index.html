@@ -7,6 +7,7 @@
   <meta name="description" content="Practice fast 8-bit binary and decimal conversion in Signal Eight." />
   <meta name="theme-color" content="#05080d" />
   <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./interaction.css" />
 </head>
 <body>
   <a class="skip-link" href="#game">Skip to game</a>
@@ -32,6 +33,7 @@
       </div>
 
       <div class="board-wrap">
+        <div id="prompt" class="prompt" aria-live="polite">Awaiting drill initialization.</div>
         <div class="weights" aria-hidden="true">
           <span>128</span><span>64</span><span>32</span><span>16</span><span>8</span><span>4</span><span>2</span><span>1</span><span>=</span><span>DEC</span>
         </div>
@@ -47,6 +49,7 @@
       </div>
 
       <div class="controls">
+        <button id="submit" class="submit-answer" disabled>Submit answer</button>
         <button id="pause" disabled>Pause</button>
         <button id="end" disabled>End drill</button>
         <span>Keys: <kbd>1–8</kbd> toggle bits · type numbers · <kbd>Enter</kbd> submit · <kbd>Space</kbd> pause</span>
