@@ -38,7 +38,47 @@
 }
 .dream-char__glyph--next { opacity: 0; }
 [data-dream-morphing="true"] > .dream-char__glyph { will-change: opacity, transform, filter; }
+[data-dream-disintegrating="true"] .dream-letter { will-change: opacity, transform; }
 .dream-gap { white-space: pre; }
+
+/* Slow semantic instability: each real letter keeps its canonical layout slot
+   while transforms carry it temporarily into a neighboring slot. */
+[data-dream-headline] {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+[data-dream-headline-ready] > .dream-headline__semantic {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.dream-headline__visual { display: inline-block; white-space: nowrap; }
+.dream-headline__letter {
+  position: relative;
+  display: inline-block;
+  vertical-align: baseline;
+  text-align: center;
+  transform-origin: center 65%;
+  backface-visibility: hidden;
+}
+[data-dream-headline-moving="true"] .dream-headline__letter { will-change: transform; }
+/* Preserve the Extensions word's existing cyan-to-violet treatment across
+   independently moving letter slots. */
+.extensions-hero [data-dream-headline] .dream-headline__letter {
+  color: transparent;
+  background: linear-gradient(90deg, var(--cyan), var(--green), var(--violet));
+  background-size: calc(var(--dream-headline-count) * 100%) 100%;
+  background-position: var(--dream-headline-stop) 0;
+  background-repeat: no-repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
 .dream-home {
   font-size: clamp(1.2rem, 2.7vw, 2.7rem);
   color: #e5ebd5;
@@ -104,11 +144,14 @@
 [data-dream-paused="true"] .dream-char__glyph--current { opacity: 1 !important; }
 .still .dream-char__glyph--next,
 [data-dream-paused="true"] .dream-char__glyph--next { opacity: 0 !important; }
+.still .dream-headline__letter,
+[data-dream-paused="true"] .dream-headline__letter { transform: none !important; }
 .still .dream-minerva::before { opacity: .14; transform: rotate(-2deg); transition: none; }
 @media (prefers-reduced-motion: reduce) {
   .dream-letter { transform: none !important; opacity: 1 !important; filter: none !important; text-shadow: none !important; }
   .dream-char__glyph { transform: none !important; filter: none !important; text-shadow: none !important; }
   .dream-char__glyph--current { opacity: 1 !important; }
   .dream-char__glyph--next { opacity: 0 !important; }
+  .dream-headline__letter { transform: none !important; }
   .dream-minerva::before { opacity: .14 !important; transform: rotate(-2deg) !important; transition: none; }
 }
