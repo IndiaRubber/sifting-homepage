@@ -22,27 +22,61 @@
   <link rel="preload" as="image" href="./assets/hero-soul-thread.webp" type="image/webp" />
   <link rel="stylesheet" href="./style.css" />
 </head>
-<body>
+<body class="loader-active">
   <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <div class="minerva-loader" id="minerva-loader" aria-label="Minerva Down title sequence">
+    <div class="minerva-loader__field" aria-hidden="true"></div>
+    <div class="minerva-loader__scanlines" aria-hidden="true"></div>
+    <div class="minerva-loader__frame">
+      <p class="minerva-loader__meta">MINERVA DOWN // BOOT SEQUENCE</p>
+      <div class="minerva-loader__title" aria-hidden="true">
+        <span>MINERVA</span>
+        <span>DOWN</span>
+      </div>
+      <div class="minerva-loader__debris" aria-hidden="true"></div>
+      <div class="minerva-loader__fissure" aria-hidden="true"></div>
+      <p class="minerva-loader__status"><span id="minerva-loader-status">Awaiting carrier</span><i aria-hidden="true"></i></p>
+      <button class="minerva-loader__skip" id="minerva-loader-skip" type="button">Skip sequence <span aria-hidden="true">[ esc ]</span></button>
+    </div>
+  </div>
+  <noscript><style>.minerva-loader { display: none; } .loader-active { overflow: auto; }</style></noscript>
 
   <div class="site-shell">
     <header class="site-header">
-      <a class="brand" href="#top" aria-label="exSifting home">
+      <a class="brand" href="#signal" aria-label="exSifting home">
         <span class="brand-mark" aria-hidden="true">X</span>
         <span class="brand-name">exSifting</span>
       </a>
+      <p class="header-note">Author / speculative fiction / public signal</p>
 
       <nav class="site-nav" aria-label="Primary navigation">
-        <a href="#books">Books</a>
-        <a href="#about">About</a>
-        <a href="#beyond">Beyond the books</a>
-        <a href="./extensions/">Extensions</a>
-        <a href="./archive/">Archive</a>
+        <a href="#top" data-panel="0"><span>01</span> Signal</a>
+        <a href="#minerva" data-panel="1"><span>02</span> Minerva</a>
+        <a href="#about" data-panel="2"><span>03</span> Author</a>
+        <a href="#beyond" data-panel="3"><span>04</span> Archive</a>
+        <a href="#contact" data-panel="4"><span>05</span> Open channel</a>
       </nav>
     </header>
 
     <main id="main-content">
-      <section id="top" class="hero" aria-labelledby="hero-title">
+      <section id="signal" class="hero" aria-labelledby="hero-title">
+        <div class="dream-warning" aria-label="System warning">
+          <div class="dream-warning__frame">
+            <div class="dream-warning__meta" aria-hidden="true">
+              <span>Public signal</span>
+              <span>Channel 00</span>
+              <span>Status: unverified</span>
+            </div>
+            <p class="sr-only">This is not a dream.</p>
+            <div class="dream-warning__message" data-message="THIS IS NOT A DREAM" aria-hidden="true">THIS IS NOT A DREAM</div>
+            <div class="dream-warning__footer" aria-hidden="true">
+              <span>Do not attempt correction</span>
+              <span class="dream-warning__cursor"></span>
+              <span>Status: unverified</span>
+            </div>
+          </div>
+        </div>
         <div class="hero-copy">
           <p class="kicker">Speculative fiction // signal acquired</p>
           <h1 id="hero-title">
@@ -56,13 +90,8 @@
           </p>
 
           <div class="hero-actions">
-            <a
-              class="button button-primary"
-              href="https://www.royalroad.com/fiction/111149/minerva-down"
-            >
-              Read <span>Minerva Down</span>
-            </a>
-            <a class="button button-quiet" href="#about">Meet the author</a>
+            <a class="text-link text-link-featured" href="https://www.royalroad.com/fiction/111149/minerva-down">Read Minerva Down <span aria-hidden="true">↗</span></a>
+            <a class="text-link text-link-quiet" href="#about">Meet the author <span aria-hidden="true">↓</span></a>
           </div>
 
           <p class="transmission-note">
@@ -88,10 +117,14 @@
         </aside>
       </section>
 
-      <section id="books" class="section featured-book" aria-labelledby="book-title">
+      <section id="minerva" class="section featured-book" aria-labelledby="book-title">
+        <div class="book-panel-cover" aria-hidden="true">
+          <img src="./assets/minerva-down-cover.webp" alt="" width="400" height="600" loading="lazy" decoding="async" />
+        </div>
         <div class="section-heading">
           <p class="kicker">Featured fiction</p>
-          <h2 id="book-title">Minerva Down</h2>
+          <h2 id="book-title">Minerva <em>Down</em></h2>
+          <p class="section-coordinate">Transmission 01 / last known origin: uncertain</p>
         </div>
 
         <div class="book-grid">
@@ -187,58 +220,16 @@
           </p>
         </div>
 
-        <div class="project-grid">
-          <a class="project-card" href="./archive/">
-            <span class="project-number">01</span>
-            <div>
-              <h3>The Recovered Archive</h3>
-              <p>
-                Enter the original exSifting portal: unauthorized signals,
-                Sifting records, and materials of uncertain provenance.
-              </p>
-            </div>
-            <span class="card-arrow" aria-hidden="true">↗</span>
-          </a>
-
-          <a class="project-card" href="https://network.exsifting.com">
-            <span class="project-number">02</span>
-            <div>
-              <h3>District 3 Network Console</h3>
-              <p>
-                A browser-based Cisco CLI training simulation disguised as an
-                infrastructure assignment from the wrong timeline.
-              </p>
-            </div>
-            <span class="card-arrow" aria-hidden="true">↗</span>
-          </a>
-
-          <a class="project-card" href="https://search.exsifting.com">
-            <span class="project-number">03</span>
-            <div>
-              <h3>Search Node</h3>
-              <p>
-                A private signal-discovery interface and experimental search
-                tool hiding elsewhere on the network.
-              </p>
-            </div>
-            <span class="card-arrow" aria-hidden="true">↗</span>
-          </a>
-
-          <a class="project-card" href="./games/binary/">
-            <span class="project-number">04</span>
-            <div>
-              <h3>Signal Eight</h3>
-              <p>
-                A fast-moving binary conversion drill for network operators.
-                Decode octets before the signal stack overruns the console.
-              </p>
-            </div>
-            <span class="card-arrow" aria-hidden="true">↗</span>
-          </a>
+        <div class="project-index">
+          <a class="project-entry project-entry-archive" href="./archive/"><span class="project-number">01</span><span class="project-title">The Recovered Archive</span><span class="project-description">Original exSifting portal / uncertain provenance</span><span class="card-arrow" aria-hidden="true">↗</span></a>
+          <a class="project-entry project-entry-wide" href="https://network.exsifting.com"><span class="project-number">02</span><span class="project-title">District 3 Network Console</span><span class="project-description">Browser-based networking simulation from the wrong timeline</span><span class="card-arrow" aria-hidden="true">↗</span></a>
+          <a class="project-entry project-entry-short" href="https://search.exsifting.com"><span class="project-number">03</span><span class="project-title">Search Node</span><span class="project-description">Experimental signal-discovery infrastructure</span><span class="card-arrow" aria-hidden="true">↗</span></a>
+          <a class="project-entry project-entry-wide" href="./games/binary/"><span class="project-number">04</span><span class="project-title">Signal Eight</span><span class="project-description">A binary conversion drill for network operators</span><span class="card-arrow" aria-hidden="true">↗</span></a>
         </div>
+        <p class="archive-warning"><span>Archive boundary detected.</span> The older layer is still answering.</p>
       </section>
 
-      <section class="contact-band" aria-labelledby="contact-title">
+      <section id="contact" class="contact-band" aria-labelledby="contact-title">
         <div>
           <p class="kicker">Open channel</p>
           <h2 id="contact-title">Follow the signal.</h2>
@@ -249,18 +240,18 @@
         </div>
 
         <div class="contact-actions">
-          <a
-            class="button button-primary"
-            href="https://www.royalroad.com/fiction/111149/minerva-down"
-          >
-            Read on Royal Road
-          </a>
-          <a class="button button-quiet" href="mailto:operator@exsifting.com">
-            operator@exsifting.com
-          </a>
+          <a class="text-link text-link-featured" href="https://www.royalroad.com/fiction/111149/minerva-down">Read on Royal Road <span aria-hidden="true">↗</span></a>
+          <a class="text-link text-link-quiet" href="mailto:operator@exsifting.com">operator@exsifting.com <span aria-hidden="true">↗</span></a>
+          <a class="text-link text-link-quiet" href="./extensions/">Open extensions <span aria-hidden="true">↗</span></a>
         </div>
       </section>
     </main>
+
+    <nav class="panel-controls" aria-label="Panel controls">
+      <button type="button" data-panel-prev aria-label="Previous panel">←</button>
+      <span><b data-panel-current>01</b> / 05</span>
+      <button type="button" data-panel-next aria-label="Next panel">→</button>
+    </nav>
 
     <footer class="site-footer">
       <p>© <span id="year"></span> exSifting</p>
@@ -270,6 +261,197 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    (() => {
+      const loader = document.getElementById("minerva-loader");
+      const skip = document.getElementById("minerva-loader-skip");
+      const status = document.getElementById("minerva-loader-status");
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      if (!loader || !skip || !status) return;
+
+      let closed = false;
+      const debris = loader.querySelector(".minerva-loader__debris");
+      const debrisChars = ["░", "▒", "▓", "╱", "╲", "|", "_", "/", "\\", "#", "+", "·", "∴", "0", "1"];
+      if (debris) {
+        for (let index = 0; index < 42; index += 1) {
+          const fragment = document.createElement("span");
+          fragment.textContent = debrisChars[index % debrisChars.length];
+          fragment.style.left = `${18 + Math.random() * 64}%`;
+          fragment.style.top = `${31 + Math.random() * 31}%`;
+          fragment.style.setProperty("--debris-x", `${-160 + Math.random() * 320}px`);
+          fragment.style.setProperty("--debris-r", `${-80 + Math.random() * 160}deg`);
+          fragment.style.setProperty("--debris-delay", `${Math.random() * .45}s`);
+          debris.appendChild(fragment);
+        }
+      }
+
+      const dismiss = (instant = false) => {
+        if (closed) return;
+        closed = true;
+        document.body.classList.remove("loader-active");
+        try { sessionStorage.setItem("exsifting-minerva-intro", "seen"); } catch (error) { /* storage may be disabled */ }
+        loader.classList.add("is-done");
+        window.setTimeout(() => {
+          loader.hidden = true;
+          loader.setAttribute("aria-hidden", "true");
+        }, instant ? 0 : 560);
+      };
+
+      let seen = false;
+      try { seen = sessionStorage.getItem("exsifting-minerva-intro") === "seen"; } catch (error) { /* storage may be disabled */ }
+      if (seen) { dismiss(true); return; }
+
+      skip.addEventListener("click", () => dismiss());
+      loader.addEventListener("click", event => { if (event.target !== skip) dismiss(); });
+      document.addEventListener("keydown", event => { if (event.key === "Escape" && !closed) dismiss(); }, { once: true });
+      if (reduceMotion.matches) {
+        dismiss(true);
+        return;
+      }
+
+      const messages = ["Awaiting carrier", "Fissure detected", "Title integrity: failing", "Transmission active"];
+      messages.forEach((message, index) => {
+        window.setTimeout(() => { if (!closed) status.textContent = message; }, 520 + index * 620);
+      });
+      window.setTimeout(() => { if (!closed) loader.classList.add("is-fissure"); }, 1450);
+      window.setTimeout(() => { if (!closed) loader.classList.add("is-collapsing"); }, 2350);
+      window.setTimeout(() => dismiss(), 3900);
+      reduceMotion.addEventListener?.("change", event => { if (event.matches) dismiss(); });
+    })();
+
+    (() => {
+      const banner = document.querySelector(".dream-warning");
+      const textEl = document.querySelector(".dream-warning__message");
+      const original = textEl?.dataset.message;
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const symbols = ["#", "%", "@", "!", "$", "?", "/", "\\", "*", "+", "=", "~", "¦", "†", "∆", "⊢", "₦", "Я", "Ø", "Λ", "▓", "░", "∴", "⊗", "⌁"];
+      const substitutions = {
+        A: ["4", "∆", "Λ"], E: ["3", "€"], I: ["!", "|", "¦"], O: ["0", "Ø"],
+        S: ["$", "5"], T: ["†", "+"], N: ["₦", "И"], R: ["Я"], D: ["Ð"], M: ["₥"]
+      };
+
+      if (!banner || !textEl || !original || reduceMotion.matches) return;
+
+      const wait = ms => new Promise(resolve => window.setTimeout(resolve, ms));
+      const distort = level => original.split("").map(char => {
+        if (char === " ") return char;
+        if (Math.random() < level * .7 && substitutions[char]) {
+          const list = substitutions[char];
+          return list[Math.floor(Math.random() * list.length)];
+        }
+        return Math.random() < level ? symbols[Math.floor(Math.random() * symbols.length)] : char;
+      }).join("");
+
+      async function cycle() {
+        while (!reduceMotion.matches) {
+          banner.classList.remove("dream-warning--corrupt");
+          textEl.textContent = original;
+          await wait(2400);
+          if (reduceMotion.matches) break;
+
+          banner.classList.add("dream-warning--corrupt");
+          for (let level = .08; level <= .9; level += .07) {
+            textEl.textContent = distort(level);
+            await wait(180);
+          }
+          await wait(1200);
+          for (let level = .9; level >= .12; level -= .08) {
+            textEl.textContent = distort(level);
+            await wait(130);
+          }
+          textEl.textContent = original;
+          banner.classList.remove("dream-warning--corrupt");
+          await wait(1800);
+        }
+        textEl.textContent = original;
+        banner.classList.remove("dream-warning--corrupt");
+      }
+
+      reduceMotion.addEventListener?.("change", event => {
+        if (event.matches) textEl.textContent = original;
+      });
+      cycle();
+    })();
+
+    (() => {
+      const track = document.getElementById("main-content");
+      const panels = track ? [...track.children] : [];
+      const links = [...document.querySelectorAll(".site-nav a[data-panel]")];
+      const previous = document.querySelector("[data-panel-prev]");
+      const next = document.querySelector("[data-panel-next]");
+      const current = document.querySelector("[data-panel-current]");
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+      if (!track || panels.length !== 5) return;
+
+      let active = 0;
+      let initialising = true;
+      let transitionTimer;
+      const hashes = ["signal", "minerva", "about", "projects", "contact"];
+      const setActive = index => {
+        active = Math.max(0, Math.min(panels.length - 1, index));
+        links.forEach(link => link.setAttribute("aria-current", Number(link.dataset.panel) === active ? "page" : "false"));
+        if (current) current.textContent = String(active + 1).padStart(2, "0");
+      };
+      const goTo = (index, updateHash = true) => {
+        const target = Math.max(0, Math.min(panels.length - 1, index));
+        track.classList.add("is-transitioning");
+        window.clearTimeout(transitionTimer);
+        panels[target].scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth", block: "nearest", inline: "start" });
+        transitionTimer = window.setTimeout(() => track.classList.remove("is-transitioning"), reduced.matches ? 0 : 760);
+        setActive(target);
+        if (updateHash && location.hash !== `#${hashes[target]}`) history.replaceState(null, "", `#${hashes[target]}`);
+      };
+      links.forEach(link => link.addEventListener("click", event => {
+        if (window.matchMedia("(max-width: 780px)").matches) return;
+        event.preventDefault();
+        goTo(Number(link.dataset.panel));
+      }));
+      previous?.addEventListener("click", () => goTo(active - 1));
+      next?.addEventListener("click", () => goTo(active + 1));
+
+      let touchStartX = 0;
+      let touchStartY = 0;
+      track.addEventListener("touchstart", event => {
+        touchStartX = event.changedTouches[0].clientX;
+        touchStartY = event.changedTouches[0].clientY;
+      }, { passive: true });
+      track.addEventListener("touchend", event => {
+        if (window.matchMedia("(max-width: 780px)").matches) return;
+        const touch = event.changedTouches[0];
+        const dx = touch.clientX - touchStartX;
+        const dy = touch.clientY - touchStartY;
+        if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy)) goTo(active + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+
+      document.addEventListener("keydown", event => {
+        if (window.matchMedia("(max-width: 780px)").matches || /INPUT|TEXTAREA|SELECT/.test(event.target.tagName)) return;
+        const forward = ["ArrowRight", "ArrowDown", "PageDown"].includes(event.key);
+        const backward = ["ArrowLeft", "ArrowUp", "PageUp"].includes(event.key);
+        if (!forward && !backward) return;
+        event.preventDefault();
+        goTo(active + (forward ? 1 : -1));
+      });
+
+      const observer = new IntersectionObserver(entries => {
+        if (initialising) return;
+        entries.forEach(entry => {
+          if (entry.isIntersecting && entry.intersectionRatio >= .55) {
+            const index = panels.indexOf(entry.target);
+            setActive(index);
+            if (location.hash !== `#${hashes[index]}`) history.replaceState(null, "", `#${hashes[index]}`);
+          }
+        });
+      }, { root: track, threshold: [.55] });
+      panels.forEach(panel => observer.observe(panel));
+
+      const initialHash = location.hash.slice(1);
+      const initialIndex = initialHash === "top" ? 0 : initialHash === "books" ? 1 : hashes.indexOf(initialHash);
+      window.setTimeout(() => {
+        if (initialIndex >= 0) goTo(initialIndex, false);
+        else setActive(0);
+        initialising = false;
+      }, 0);
+    })();
   </script>
 </body>
 </html>
