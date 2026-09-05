@@ -1,0 +1,224 @@
+.reality--minerva {
+  --book-panel-dim: 0;
+}
+
+.reality--minerva .book-copy {
+  opacity: calc(1 - (var(--book-panel-dim) * .58));
+  filter: brightness(calc(1 - (var(--book-panel-dim) * .28)));
+}
+
+.book-panel-cover[data-book-stage] {
+  --book-open: 0;
+  --book-page-reveal: 0;
+  --book-aperture: 0;
+  touch-action: pan-y;
+  isolation: isolate;
+}
+
+.book-panel-cover[data-book-stage] .artifact-crosshair {
+  opacity: calc(1 - (var(--book-aperture) * .84));
+}
+
+.minerva-book[data-minerva-book] {
+  touch-action: pan-y;
+}
+
+.minerva-book__cover {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background:
+    linear-gradient(90deg, rgba(5, 12, 10, .72), transparent 12%),
+    radial-gradient(circle at 68% 38%, rgba(84, 122, 105, .18), transparent 45%),
+    #111a16;
+  cursor: grab;
+  appearance: none;
+  transform-origin: 0 50%;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+.minerva-book__cover:focus-visible {
+  outline: 1px solid #d8f7cb;
+  outline-offset: 7px;
+}
+
+.minerva-book__cover .minerva-book__face {
+  opacity: clamp(0, calc((.5 - var(--book-open)) * 8), 1);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.minerva-book__cover .minerva-book__face img {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.minerva-book__cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateZ(11px) rotateY(180deg);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border: 1px solid rgba(207, 236, 194, .22);
+  background:
+    linear-gradient(90deg, rgba(5, 12, 10, .72), transparent 12%),
+    radial-gradient(circle at 68% 38%, rgba(84, 122, 105, .18), transparent 45%),
+    #111a16;
+  box-shadow: 15px 20px 50px rgba(0, 0, 0, .55);
+}
+
+.minerva-book__interior {
+  position: absolute;
+  inset: 0;
+  right: auto;
+  width: 100%;
+  z-index: 2;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+  padding: 9% 9% 7% 13%;
+  border: 1px solid rgba(202, 235, 190, .32);
+  color: #dce9d7;
+  background:
+    linear-gradient(90deg, rgba(3, 8, 7, .64), transparent 11%),
+    repeating-linear-gradient(0deg, rgba(227, 244, 218, .018) 0 1px, transparent 1px 5px),
+    radial-gradient(circle at 75% 16%, rgba(79, 173, 150, .16), transparent 32%),
+    #0d1512;
+  box-shadow: 16px 26px 70px rgba(0, 0, 0, .68), inset 13px 0 22px rgba(0, 0, 0, .48);
+  opacity: var(--book-page-reveal);
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}
+
+.minerva-book__interior::before {
+  content: "";
+  position: absolute;
+  inset: 5% auto 5% 7%;
+  width: 1px;
+  background: linear-gradient(transparent, rgba(188, 231, 194, .5), transparent);
+  box-shadow: 0 0 13px rgba(128, 233, 211, .32);
+  opacity: calc(.18 + (var(--book-aperture) * .82));
+}
+
+.minerva-book__interior::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(104deg, transparent 48%, rgba(192, 246, 225, .1) 50%, transparent 52%);
+  opacity: var(--book-aperture);
+}
+
+.minerva-book__folio {
+  margin: 0 0 5%;
+  color: #83b6a4;
+  font: 10px/1 var(--mono);
+  letter-spacing: .28em;
+}
+
+.minerva-book__interior h3 {
+  max-width: 100%;
+  margin: 0 0 6%;
+  color: #eef3e4;
+  font: italic 27px/.94 var(--serif);
+  letter-spacing: -.03em;
+}
+
+.minerva-book__excerpt {
+  margin: 0;
+  color: #b7c9bc;
+  font: clamp(10.5px, .95vw, 12px)/1.42 var(--serif);
+}
+
+.minerva-book__continue {
+  position: relative;
+  z-index: 1;
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 12px 0 4px;
+  color: #cde8ca;
+  font: 9px/1.35 var(--mono);
+  letter-spacing: .12em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.minerva-book__continue:focus-visible,
+.minerva-book__continue:hover {
+  color: #fff;
+  text-shadow: 0 0 14px rgba(151, 235, 208, .62);
+}
+
+.minerva-book__spine {
+  z-index: 6;
+  pointer-events: none;
+}
+
+.minerva-book__instruction {
+  margin: 21px auto 0;
+  color: rgba(184, 209, 183, calc(.68 - (var(--book-open) * .46)));
+  font: 9px/1.3 var(--mono);
+  letter-spacing: .2em;
+  text-align: center;
+}
+
+.book-panel-cover[data-book-state="preview"] .minerva-book__instruction,
+.book-panel-cover[data-book-state="threshold"] .minerva-book__instruction,
+.book-panel-cover.is-committing .minerva-book__instruction {
+  opacity: 0;
+}
+
+.book-panel-cover.is-dragging .minerva-book__cover,
+body.minerva-book-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+.book-panel-cover.is-dragging .minerva-book {
+  transition: none;
+}
+
+.book-panel-cover.is-committing {
+  z-index: 40;
+}
+
+.book-panel-cover.is-committing .dream-minerva,
+.book-panel-cover.is-committing .artifact-caption {
+  opacity: 0;
+}
+
+@media (max-width: 760px) {
+  .minerva-book__interior {
+    padding: 8% 8% 7% 12%;
+  }
+
+  .minerva-book__interior h3 {
+    font-size: 22px;
+  }
+
+  .minerva-book__excerpt {
+    font-size: 9.5px;
+  }
+
+  .minerva-book__continue {
+    font-size: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book-panel-cover[data-book-stage] .minerva-book__cover,
+  .book-panel-cover[data-book-stage] .minerva-book__interior {
+    will-change: auto;
+  }
+}

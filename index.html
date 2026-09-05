@@ -34,8 +34,10 @@
 
   <link rel="preload" as="image" href="./assets/hero-soul-thread.webp" />
   <link rel="stylesheet" href="./assets/reality.css" />
+  <link rel="stylesheet" href="./assets/minerva-book.css" />
   <link rel="stylesheet" href="./assets/dream-signal.css" />
   <script src="./assets/reality.js" defer></script>
+  <script src="./assets/minerva-book.js" defer></script>
   <script src="./assets/minerva-audio.js" defer></script>
   <script src="./assets/dream-signal.js" defer></script>
 </head>
@@ -87,12 +89,21 @@
               <a class="text-action" href="https://www.royalroad.com/fiction/111149/minerva-down">Begin reading <span aria-hidden="true">↗</span></a>
               <p class="book-meta">SERIALIZING · FREE ON ROYAL ROAD · LITRPG-ADJACENT</p>
             </div>
-            <div class="book-panel-cover" data-book-stage>
+            <div class="book-panel-cover" data-book-stage data-book-state="closed">
               <div class="artifact-crosshair" aria-hidden="true"></div>
-              <div class="minerva-book">
-                <div class="minerva-book__face"><img src="./assets/minerva-down-cover.webp" alt="Minerva Down book cover" width="400" height="600" /></div>
+              <div class="minerva-book" data-minerva-book>
+                <article class="minerva-book__interior" data-book-page aria-hidden="true">
+                  <p class="minerva-book__folio">PROLOGUE</p>
+                  <h3>Elusive Locus</h3>
+                  <p class="minerva-book__excerpt">The rent torn in the fabric of reality was more distorted than any recorded event in the last decade, but that was not what Mae found unnerving. The astral space was more chaotic than any she had entered since these events began, but that wasn’t what gave her the sense of foreboding. After all, John had managed to stabilize the space as easily as any other, and the manifested anomalies were easy enough for the four-man team to deal with. No, what gave her goosebumps was how the Locus managed to slip away just as they were about to anchor it, drawing them into even deeper layers of the astral realm.</p>
+                  <a class="minerva-book__continue" data-book-continue tabindex="-1" href="https://www.royalroad.com/fiction/111149/minerva-down/chapter/2807537/prologue-elusive-locus">Continue through the aperture <span aria-hidden="true">→</span></a>
+                </article>
+                <button class="minerva-book__cover" data-book-cover type="button" aria-expanded="false" aria-label="Open a preview of Minerva Down: Prologue — Elusive Locus">
+                  <span class="minerva-book__face"><img src="./assets/minerva-down-cover.webp" alt="Minerva Down book cover" width="400" height="600" draggable="false" /></span>
+                </button>
                 <span class="minerva-book__spine" aria-hidden="true">MINERVA DOWN / EXSIFTING</span>
               </div>
+              <p class="minerva-book__instruction" aria-hidden="true">DRAG COVER LEFT TO OPEN</p>
               <p class="dream-minerva" data-dream-signal data-dream-mode="minerva">THIS IS NOT A DREAM</p>
               <span class="artifact-caption">RECOVERED OBJECT 001</span>
             </div>

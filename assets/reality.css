@@ -78,7 +78,7 @@ p { font-size: 16px; line-height: 1.7; }
 .book-copy > .book-hook { color: #edf1df !important; font: 24px var(--serif); margin-bottom: 18px; }
 .book-meta { font: 12px/1.7 var(--mono); color: #8ca89b; margin-top: 25px; letter-spacing: .06em; }
 .book-panel-cover { --book-rx: -4deg; --book-ry: -18deg; --book-lift: 0px; position: relative; perspective: 1200px; width: 100%; padding: 30px; }
-.minerva-book { position: relative; width: min(100%, 285px); aspect-ratio: 2/3; margin: 0 auto; transform-style: preserve-3d; transform: translateY(var(--book-lift)) rotateX(var(--book-rx)) rotateY(var(--book-ry)) translateZ(var(--audio-depth)); transition: transform .2s; }
+.minerva-book { position: relative; width: min(100%, 285px); aspect-ratio: 2/3; margin: 0 auto; transform-style: preserve-3d; transform: translateY(var(--book-lift)) rotateX(var(--book-rx)) rotateY(var(--book-ry)) translateZ(var(--audio-depth)) scale(var(--book-gesture-scale, 1)); transition: transform .2s; }
 .minerva-book__face { position: absolute; inset: 0; transform: translateZ(12px); box-shadow: 20px 35px 80px #000a, 0 0 var(--audio-face-glow) rgba(117,220,235,var(--audio-face-alpha)); }
 .minerva-book__face img { width: 100%; height: 100%; display: block; border: 1px solid #edf6dc55; }
 .minerva-book__spine { position: absolute; left: 0; height: 100%; width: 26px; background: linear-gradient(90deg,#050c09,#18362b); transform-origin: left; transform: translateZ(12px) rotateY(-90deg); writing-mode: vertical-rl; padding: 20px 5px; font: 12px var(--mono); color: #bbd6b3; letter-spacing: .14em; }
