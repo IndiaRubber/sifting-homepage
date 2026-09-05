@@ -10,6 +10,9 @@
     content="exSifting writes mythic science fiction and system-haunted stories about reality, memory, technology, and the machinery hidden beneath ordinary perception."
   />
   <meta name="theme-color" content="#080b11" />
+  <meta name="robots" content="index, follow" />
+
+  <link rel="canonical" href="https://www.exsifting.com/" />
 
   <meta property="og:type" content="website" />
   <meta property="og:title" content="exSifting | Speculative Fiction Beyond the Approved Paradigm" />
@@ -18,6 +21,16 @@
     content="Read Minerva Down and explore fiction from outside the approved paradigm."
   />
   <meta property="og:url" content="https://www.exsifting.com/" />
+  <meta property="og:image" content="https://www.exsifting.com/assets/hero-soul-thread.webp" />
+  <meta property="og:image:width" content="1672" />
+  <meta property="og:image:height" content="941" />
+  <meta property="og:image:alt" content="A luminous filament crossing a dark cosmic field" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="exSifting | Speculative Fiction Beyond the Approved Paradigm" />
+  <meta name="twitter:description" content="Read Minerva Down and explore fiction from outside the approved paradigm." />
+  <meta name="twitter:image" content="https://www.exsifting.com/assets/hero-soul-thread.webp" />
+  <meta name="twitter:image:alt" content="A luminous filament crossing a dark cosmic field" />
 
   <link rel="preload" as="image" href="./assets/hero-soul-thread.webp" type="image/webp" />
   <link rel="stylesheet" href="./style.css" />
@@ -51,10 +64,10 @@
       <p class="header-note">Author / speculative fiction / public signal</p>
 
       <nav class="site-nav" aria-label="Primary navigation">
-        <a href="#top" data-panel="0"><span>01</span> Signal</a>
+        <a href="#signal" data-panel="0"><span>01</span> Signal</a>
         <a href="#minerva" data-panel="1"><span>02</span> Minerva</a>
         <a href="#about" data-panel="2"><span>03</span> Author</a>
-        <a href="#beyond" data-panel="3"><span>04</span> Archive</a>
+        <a href="#beyond" data-panel="3"><span>04</span> Projects</a>
         <a href="#contact" data-panel="4"><span>05</span> Open channel</a>
       </nav>
     </header>
@@ -89,32 +102,11 @@
             the dangerous structures people were never meant to see.
           </p>
 
-          <div class="hero-actions">
-            <a class="text-link text-link-featured" href="https://www.royalroad.com/fiction/111149/minerva-down">Read Minerva Down <span aria-hidden="true">↗</span></a>
-            <a class="text-link text-link-quiet" href="#about">Meet the author <span aria-hidden="true">↓</span></a>
+          <div class="hero-transition">
+            <span>02 / Current transmission</span>
+            <a class="text-link text-link-featured" href="#minerva">Minerva Down <span aria-hidden="true">→</span></a>
           </div>
-
-          <p class="transmission-note">
-            <span aria-hidden="true"></span>
-            New chapters currently serializing on Royal Road.
-          </p>
         </div>
-
-        <aside class="book-object" aria-label="Minerva Down featured book">
-          <div class="book-cover">
-            <img
-              src="./assets/minerva-down-cover.webp"
-              alt="Cover of Minerva Down by exSifting"
-              width="400"
-              height="600"
-              decoding="async"
-            />
-          </div>
-          <p class="book-object-caption">
-            <span>Recovered text 01</span>
-            <span>Transmission active</span>
-          </p>
-        </aside>
       </section>
 
       <section id="minerva" class="section featured-book" aria-labelledby="book-title">
@@ -402,12 +394,27 @@
         if (updateHash && location.hash !== `#${hashes[target]}`) history.replaceState(null, "", `#${hashes[target]}`);
       };
       links.forEach(link => link.addEventListener("click", event => {
-        if (window.matchMedia("(max-width: 780px)").matches) return;
         event.preventDefault();
         goTo(Number(link.dataset.panel));
       }));
       previous?.addEventListener("click", () => goTo(active - 1));
       next?.addEventListener("click", () => goTo(active + 1));
+
+      let wheelLock = false;
+      track.addEventListener("wheel", event => {
+        if (window.matchMedia("(max-width: 780px)").matches || Math.abs(event.deltaX) >= Math.abs(event.deltaY)) return;
+        const panel = panels[active];
+        const hasVerticalOverflow = panel.scrollHeight > panel.clientHeight + 1;
+        const atTop = panel.scrollTop <= 1;
+        const atBottom = panel.scrollTop + panel.clientHeight >= panel.scrollHeight - 1;
+        const movingDown = event.deltaY > 0;
+        if (hasVerticalOverflow && ((movingDown && !atBottom) || (!movingDown && !atTop))) return;
+        if (wheelLock) return;
+        event.preventDefault();
+        wheelLock = true;
+        goTo(active + (movingDown ? 1 : -1));
+        window.setTimeout(() => { wheelLock = false; }, reduced.matches ? 180 : 720);
+      }, { passive: false });
 
       let touchStartX = 0;
       let touchStartY = 0;
@@ -424,7 +431,7 @@
       }, { passive: true });
 
       document.addEventListener("keydown", event => {
-        if (window.matchMedia("(max-width: 780px)").matches || /INPUT|TEXTAREA|SELECT/.test(event.target.tagName)) return;
+        if (/INPUT|TEXTAREA|SELECT/.test(event.target.tagName)) return;
         const forward = ["ArrowRight", "ArrowDown", "PageDown"].includes(event.key);
         const backward = ["ArrowLeft", "ArrowUp", "PageUp"].includes(event.key);
         if (!forward && !backward) return;
