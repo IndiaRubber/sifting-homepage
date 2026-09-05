@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ChatFlow Local</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="mark" aria-hidden="true">⚡</div>
+        <div>
+          <h1>ChatFlow Local</h1>
+          <p>Speed & export toolkit</p>
+        </div>
+        <span class="badge">FREE</span>
+      </header>
+
+      <section id="controls" hidden>
+        <label class="toggle-row">
+          <span><strong>Performance mode</strong><small>Reduce rendering work in long chats</small></span>
+          <input id="enabled" type="checkbox">
+        </label>
+
+        <label class="toggle-row">
+          <span><strong>Hide older turns</strong><small>Keep only recent messages on screen</small></span>
+          <input id="focusMode" type="checkbox">
+        </label>
+
+        <label class="number-row">
+          <span>Keep latest turns</span>
+          <input id="keepRecent" type="number" min="5" max="250" step="5">
+        </label>
+
+        <label class="toggle-row">
+          <span><strong>Status HUD</strong><small>Show live optimization statistics</small></span>
+          <input id="showHud" type="checkbox">
+        </label>
+
+        <div id="conversation" class="conversation"></div>
+
+        <p class="label">Export open conversation</p>
+        <div class="exports">
+          <button data-format="pdf">PDF</button>
+          <button data-format="md">Markdown</button>
+          <button data-format="txt">Text</button>
+          <button data-format="json">JSON</button>
+        </div>
+      </section>
+
+      <section id="empty" class="empty" hidden>
+        Open a conversation on <a href="https://chatgpt.com" target="_blank">chatgpt.com</a> to use ChatFlow Local.
+      </section>
+
+      <p id="status" role="status"></p>
+      <footer>No account · No telemetry · No daily limits</footer>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>

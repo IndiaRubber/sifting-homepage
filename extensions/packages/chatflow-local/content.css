@@ -1,0 +1,31 @@
+html.chatflow-local-enabled .chatflow-local-turn {
+  content-visibility: auto;
+  contain-intrinsic-block-size: auto 320px;
+}
+
+html.chatflow-local-focus .chatflow-local-turn.chatflow-local-collapsed {
+  display: none !important;
+}
+
+#chatflow-local-host {
+  all: initial;
+  position: fixed;
+  z-index: 2147483646;
+  right: 18px;
+  bottom: 86px;
+}
+
+#chatflow-local-hud-host {
+  all: initial;
+  position: fixed;
+  z-index: 2147483645;
+  right: 16px;
+  top: 58px;
+}
+
+@media print {
+  #chatflow-local-host,
+  #chatflow-local-hud-host {
+    display: none !important;
+  }
+}

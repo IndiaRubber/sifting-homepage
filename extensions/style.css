@@ -8,8 +8,12 @@
 .catalog-heading h2, .install-note h2 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.5rem, 5vw, 4.6rem); font-weight: 500; line-height: 1; letter-spacing: -.055em; }
 .catalog-count { padding-bottom: 8px; color: var(--quiet); font: 700 .72rem Consolas, "Courier New", monospace; letter-spacing: .1em; text-transform: uppercase; }
 .extension-card { display: grid; grid-template-columns: 140px minmax(0, 1fr) minmax(220px, .42fr); gap: clamp(28px, 5vw, 65px); align-items: center; padding: clamp(28px, 5vw, 55px); background: linear-gradient(135deg, rgba(117,220,235,.055), rgba(155,139,231,.035)); border: 1px solid var(--line-strong); border-radius: 18px; box-shadow: var(--shadow); }
+.extension-card + .extension-card { margin-top: 24px; }
+.extension-card--chatflow { background: linear-gradient(135deg, rgba(117,220,235,.045), rgba(109,229,151,.05)); }
 .extension-icon { width: 126px; aspect-ratio: 1; display: grid; place-items: center; background: radial-gradient(circle at 35% 30%, #a4f6d0, #3aa7a5 48%, #272154 100%); border: 1px solid rgba(255,255,255,.25); border-radius: 31px 10px 31px 10px; box-shadow: 0 0 60px rgba(117,220,235,.18); }
 .extension-icon span { width: 54px; height: 64px; display: block; background: #071017; clip-path: polygon(50% 0, 93% 16%, 86% 71%, 50% 100%, 14% 71%, 7% 16%); }
+.extension-icon--chatflow { background: radial-gradient(circle at 35% 30%, #d7ffe9, #55c6c0 48%, #2b2764 100%); border-radius: 10px 31px 10px 31px; }
+.extension-icon--chatflow span { width: 48px; height: 68px; background: #071017; clip-path: polygon(54% 0, 14% 54%, 43% 54%, 31% 100%, 88% 39%, 58% 39%); }
 .extension-meta { display: flex; flex-wrap: wrap; gap: 8px 18px; color: var(--cyan); font: 700 .68rem Consolas, "Courier New", monospace; letter-spacing: .11em; text-transform: uppercase; }
 .extension-copy h3 { margin: 13px 0 12px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 500; line-height: 1; }
 .extension-copy > p { max-width: 640px; margin: 0; color: var(--muted); }

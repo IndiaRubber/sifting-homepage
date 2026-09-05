@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "ChatFlow Local — Speed & Export",
+  "version": "1.1.0",
+  "description": "Make long ChatGPT conversations lighter and export the open chat to Markdown, text, JSON, or a print-ready PDF — locally and without limits.",
+  "permissions": ["activeTab", "storage"],
+  "host_permissions": [
+    "https://chatgpt.com/*",
+    "https://chat.openai.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "ChatFlow Local",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*"
+      ],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}
