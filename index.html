@@ -37,6 +37,7 @@
 </head>
 <body class="loader-active">
   <a class="skip-link" href="#main-content">Skip to content</a>
+  <canvas id="minerva-canvas" aria-hidden="true"></canvas>
 
   <div class="minerva-loader" id="minerva-loader" aria-label="Minerva Down title sequence">
     <div class="minerva-loader__field" aria-hidden="true"></div>
@@ -251,6 +252,7 @@
     </footer>
   </div>
 
+  <script src="./assets/minerva-system.js"></script>
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
@@ -267,12 +269,13 @@
       if (debris) {
         for (let index = 0; index < 42; index += 1) {
           const fragment = document.createElement("span");
-          fragment.textContent = debrisChars[index % debrisChars.length];
+          fragment.textContent = debrisChars[Math.floor(Math.random() * debrisChars.length)];
           fragment.style.left = `${18 + Math.random() * 64}%`;
           fragment.style.top = `${31 + Math.random() * 31}%`;
           fragment.style.setProperty("--debris-x", `${-160 + Math.random() * 320}px`);
           fragment.style.setProperty("--debris-r", `${-80 + Math.random() * 160}deg`);
           fragment.style.setProperty("--debris-delay", `${Math.random() * .45}s`);
+          fragment.style.setProperty("--debris-duration", `${.85 + Math.random() * .6}s`);
           debris.appendChild(fragment);
         }
       }
@@ -378,17 +381,18 @@
       let active = 0;
       let initialising = true;
       let transitionTimer;
-      const hashes = ["signal", "minerva", "about", "projects", "contact"];
+      const hashes = ["signal", "minerva", "about", "beyond", "contact"];
       const setActive = index => {
         active = Math.max(0, Math.min(panels.length - 1, index));
         links.forEach(link => link.setAttribute("aria-current", Number(link.dataset.panel) === active ? "page" : "false"));
         if (current) current.textContent = String(active + 1).padStart(2, "0");
+        window.dispatchEvent(new CustomEvent("minerva:panel", { detail: { index: active } }));
       };
-      const goTo = (index, updateHash = true) => {
+      const goTo = (index, updateHash = true, immediate = false) => {
         const target = Math.max(0, Math.min(panels.length - 1, index));
         track.classList.add("is-transitioning");
         window.clearTimeout(transitionTimer);
-        panels[target].scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth", block: "nearest", inline: "start" });
+        panels[target].scrollIntoView({ behavior: immediate || reduced.matches ? "auto" : "smooth", block: "nearest", inline: "start" });
         transitionTimer = window.setTimeout(() => track.classList.remove("is-transitioning"), reduced.matches ? 0 : 760);
         setActive(target);
         if (updateHash && location.hash !== `#${hashes[target]}`) history.replaceState(null, "", `#${hashes[target]}`);
@@ -439,6 +443,12 @@
         goTo(active + (forward ? 1 : -1));
       });
 
+      window.addEventListener("hashchange", () => {
+        const requested = location.hash.slice(1);
+        const index = requested === "top" ? 0 : requested === "books" ? 1 : requested === "projects" || requested === "beyond" ? 3 : hashes.indexOf(requested);
+        if (index >= 0 && index !== active) goTo(index, false);
+      });
+
       const observer = new IntersectionObserver(entries => {
         if (initialising) return;
         entries.forEach(entry => {
@@ -448,13 +458,13 @@
             if (location.hash !== `#${hashes[index]}`) history.replaceState(null, "", `#${hashes[index]}`);
           }
         });
-      }, { root: track, threshold: [.55] });
+      }, { root: window.matchMedia("(min-width: 781px)").matches ? track : null, threshold: [.55] });
       panels.forEach(panel => observer.observe(panel));
 
       const initialHash = location.hash.slice(1);
-      const initialIndex = initialHash === "top" ? 0 : initialHash === "books" ? 1 : hashes.indexOf(initialHash);
+      const initialIndex = initialHash === "top" ? 0 : initialHash === "books" ? 1 : initialHash === "projects" || initialHash === "beyond" ? 3 : hashes.indexOf(initialHash);
       window.setTimeout(() => {
-        if (initialIndex >= 0) goTo(initialIndex, false);
+        if (initialIndex >= 0) goTo(initialIndex, false, true);
         else setActive(0);
         initialising = false;
       }, 0);

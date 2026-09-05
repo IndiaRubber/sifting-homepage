@@ -907,7 +907,7 @@ a {
 .minerva-loader__fissure::after { right: 15%; transform: rotate(-24deg); }
 .minerva-loader__debris { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
 .minerva-loader__debris span { position: absolute; color: #77c98c; font: .9rem Consolas, "Courier New", monospace; text-shadow: 0 0 6px rgba(95, 203, 119, .62); opacity: 0; }
-.minerva-loader.is-collapsing .minerva-loader__debris span { animation: loader-debris-fall 1.15s steps(9, end) forwards; animation-delay: var(--debris-delay); }
+.minerva-loader.is-collapsing .minerva-loader__debris span { animation: loader-debris-fall var(--debris-duration, 1.15s) steps(9, end) forwards; animation-delay: var(--debris-delay); }
 .minerva-loader__status { display: flex; align-items: center; justify-content: center; gap: 12px; }
 .minerva-loader__status i { width: 6px; height: 6px; display: inline-block; background: #77d7f4; box-shadow: 0 0 12px #77d7f4; transform: rotate(45deg); }
 .minerva-loader__skip {
@@ -1194,4 +1194,61 @@ a {
   .dream-warning__frame { width: min(100% - 28px, var(--max-width)); }
   .book-panel-cover { display: none; }
   .hero-transition { align-items: flex-start; flex-direction: column; gap: 10px; margin-top: 38px; }
+}
+
+/* The procedural layer is a single quiet filament beneath every panel. */
+#minerva-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  opacity: .34;
+  mix-blend-mode: screen;
+}
+
+.site-shell {
+  position: relative;
+  z-index: 2;
+}
+
+.minerva-loader {
+  z-index: 30;
+}
+
+main.is-transitioning .section-heading h2,
+main.is-transitioning .hero h1,
+main.is-transitioning .contact-band h2 {
+  text-shadow: 1px 0 rgba(117, 220, 235, .17), -1px 0 rgba(155, 139, 231, .14);
+}
+
+.minerva-archive-active .project-entry-archive {
+  transform: translateX(2px);
+  border-bottom-color: rgba(117, 220, 235, .62);
+}
+
+.minerva-archive-active .project-entry-archive .project-description {
+  text-shadow: 1px 0 rgba(117, 220, 235, .26), -1px 0 rgba(155, 139, 231, .2);
+}
+
+.minerva-archive-transition .project-entry-archive {
+  transform: translateX(3px);
+  border-color: var(--violet);
+}
+
+@media (max-width: 780px) {
+  /* Static artwork remains the mobile fallback; the canvas is desktop-only. */
+  html, body { overflow-x: hidden; }
+  #minerva-canvas { display: none; }
+  .dream-warning { width: calc(100% + 28px); margin-left: -14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #minerva-canvas { opacity: .18; }
+  main.is-transitioning .section-heading h2,
+  main.is-transitioning .hero h1,
+  main.is-transitioning .contact-band h2 { text-shadow: none; }
+  .minerva-archive-active .project-entry-archive,
+  .minerva-archive-transition .project-entry-archive { transform: none; }
 }
