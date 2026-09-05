@@ -106,13 +106,30 @@
           <div class="hero-transition">
             <span>02 / Current transmission</span>
             <a class="text-link text-link-featured" href="#minerva">Minerva Down <span aria-hidden="true">→</span></a>
+            <button class="soundtrack-call" type="button" data-audio-toggle>
+              <span class="soundtrack-call__icon" aria-hidden="true">▶</span>
+              <span data-audio-toggle-label>Enter soundtrack</span>
+            </button>
           </div>
         </div>
       </section>
 
       <section id="minerva" class="section featured-book" aria-labelledby="book-title">
-        <div class="book-panel-cover" aria-hidden="true">
-          <img src="./assets/minerva-down-cover.webp" alt="" width="400" height="600" loading="lazy" decoding="async" />
+        <div class="book-panel-cover" data-book-stage>
+          <div class="minerva-stage" aria-label="Interactive three-dimensional Minerva Down cover">
+            <span class="minerva-stage__orbit minerva-stage__orbit--outer" aria-hidden="true"></span>
+            <span class="minerva-stage__orbit minerva-stage__orbit--inner" aria-hidden="true"></span>
+            <span class="minerva-stage__axis" aria-hidden="true"></span>
+            <div class="minerva-book">
+              <div class="minerva-book__face">
+                <img src="./assets/minerva-down-cover.webp" alt="Minerva Down book cover" width="400" height="600" loading="lazy" decoding="async" />
+              </div>
+              <span class="minerva-book__spine" aria-hidden="true">MINERVA DOWN</span>
+              <span class="minerva-book__pages" aria-hidden="true"></span>
+            </div>
+            <div class="minerva-stage__shadow" aria-hidden="true"></div>
+          </div>
+          <p class="minerva-stage__instruction"><span aria-hidden="true">↔</span> Move to inspect the artifact</p>
         </div>
         <div class="section-heading">
           <p class="kicker">Featured fiction</p>
@@ -252,7 +269,32 @@
     </footer>
   </div>
 
+  <aside class="soundtrack-player" data-audio-player aria-label="Minerva Down soundtrack player">
+    <audio data-audio-source preload="metadata" src="./assets/minerva-down-soundtrack.mp3"></audio>
+    <button class="soundtrack-player__toggle" type="button" data-audio-toggle aria-label="Play Minerva Down soundtrack">
+      <span aria-hidden="true">▶</span>
+    </button>
+    <canvas class="soundtrack-player__spectrum" data-audio-spectrum width="128" height="32" aria-hidden="true"></canvas>
+    <div class="soundtrack-player__identity">
+      <span>Now transmitting</span>
+      <strong>Minerva Down</strong>
+    </div>
+    <label class="soundtrack-player__timeline">
+      <span class="sr-only">Soundtrack position</span>
+      <input data-audio-seek type="range" min="0" max="1000" value="0" step="1" />
+    </label>
+    <div class="soundtrack-player__time" aria-live="off">
+      <time data-audio-current>0:00</time>
+      <span>/</span>
+      <time data-audio-duration>—:—</time>
+    </div>
+    <button class="soundtrack-player__mute" type="button" data-audio-mute aria-label="Mute soundtrack">
+      <span aria-hidden="true">◖</span>
+    </button>
+  </aside>
+
   <script src="./assets/minerva-system.js"></script>
+  <script src="./assets/minerva-audio.js"></script>
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 

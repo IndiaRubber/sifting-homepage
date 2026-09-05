@@ -20,6 +20,7 @@
   let height = 0;
   let dpr = 1;
   let branches = [];
+  let depthNodes = [];
   let activePanel = 0;
   let pointerTarget = { x: .62, y: .48 };
   let pointer = { x: .62, y: .48 };
@@ -27,6 +28,8 @@
   let archiveActive = false;
   let corruption = 0;
   let pulse = 0;
+  let audioEnergy = 0;
+  let depthPhase = 0;
   let frame = 0;
   let lastFrame = 0;
   let running = false;
@@ -58,6 +61,17 @@
         points.push({ x, y: clamp(y, -.1, 1.1), phase: random(index * 18 + point + 1) * Math.PI * 2 });
       }
       branches.push({ points, phase: random(index + 61) * Math.PI * 2, index });
+    }
+    depthNodes = [];
+    const depthCount = mobile.matches ? 0 : Math.min(140, Math.max(72, Math.round(width / 9)));
+    for (let index = 0; index < depthCount; index += 1) {
+      depthNodes.push({
+        x: random(index + 180) * 2 - 1,
+        y: random(index + 420) * 1.55 - .77,
+        z: .06 + random(index + 680) * .94,
+        size: .35 + random(index + 910) * 1.35,
+        phase: random(index + 1200) * Math.PI * 2
+      });
     }
   }
 
@@ -117,6 +131,7 @@
     pointer.y += (pointerTarget.y - pointer.y) * .028;
     corruption = Math.max(0, corruption - elapsed / 850);
     pulse = Math.max(0, pulse - elapsed / 330);
+    depthPhase += elapsed * (.000018 + state.drift * .00002 + audioEnergy * .000055);
 
     context.clearRect(0, 0, width, height);
     context.save();
@@ -124,7 +139,32 @@
     context.lineCap = "round";
     context.lineJoin = "round";
 
-    const boost = pulse * .22 + corruption * .12 + (archiveActive ? .1 : 0);
+    const boost = pulse * .22 + corruption * .12 + (archiveActive ? .1 : 0) + audioEnergy * .23;
+    const centerX = width * (.5 + (pointer.x - .5) * .045);
+    const centerY = height * (.5 + (pointer.y - .5) * .035);
+    depthNodes.forEach(node => {
+      const cycle = ((node.z - depthPhase) % 1 + 1) % 1;
+      const z = .04 + cycle * .96;
+      const perspective = 1 / (.25 + z * 1.55);
+      const x = centerX + node.x * width * .58 * perspective;
+      const y = centerY + node.y * height * .62 * perspective;
+      if (x < -20 || x > width + 20 || y < -20 || y > height + 20) return;
+      const alpha = (1 - z) * (.09 + state.alpha * .24 + audioEnergy * .3);
+      const radius = node.size * perspective * (1 + audioEnergy * .9);
+      context.beginPath();
+      context.arc(x, y, Math.min(3.2, radius), 0, Math.PI * 2);
+      context.fillStyle = rgba(state.color, alpha);
+      context.fill();
+      if (audioEnergy > .08 && node.size > 1.05) {
+        context.beginPath();
+        context.moveTo(x, y);
+        context.lineTo(centerX + node.x * width * .58 / (.29 + z * 1.55), centerY + node.y * height * .62 / (.29 + z * 1.55));
+        context.strokeStyle = rgba(state.color, alpha * audioEnergy * 1.5);
+        context.lineWidth = .55;
+        context.stroke();
+      }
+    });
+
     const trunk = [];
     for (let point = 0; point < 24; point += 1) {
       const y = -.12 + point / 23 * 1.24;
@@ -210,6 +250,9 @@
   }, { passive: true });
   window.addEventListener("pointerleave", () => { pointerSeen = false; });
   window.addEventListener("minerva:panel", event => setPanelState(event.detail?.index ?? 0));
+  window.addEventListener("minerva:energy", event => {
+    audioEnergy = clamp(Number(event.detail?.value) || 0, 0, 1);
+  });
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) stop();
     else { lastFrame = performance.now(); start(); }
