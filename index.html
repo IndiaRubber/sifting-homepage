@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="reality-page">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -32,485 +32,157 @@
   <meta name="twitter:image" content="https://www.exsifting.com/assets/hero-soul-thread.webp" />
   <meta name="twitter:image:alt" content="A luminous filament crossing a dark cosmic field" />
 
-  <link rel="preload" as="image" href="./assets/hero-soul-thread.webp" type="image/webp" />
-  <link rel="stylesheet" href="./style.css" />
+  <link rel="preload" as="image" href="./assets/hero-soul-thread.webp" />
+  <link rel="stylesheet" href="./assets/reality.css" />
+  <link rel="stylesheet" href="./assets/dream-signal.css" />
+  <script src="./assets/reality.js" defer></script>
+  <script src="./assets/minerva-audio.js" defer></script>
+  <script src="./assets/dream-signal.js" defer></script>
 </head>
-<body class="loader-active">
+<body>
   <a class="skip-link" href="#main-content">Skip to content</a>
-  <canvas id="minerva-canvas" aria-hidden="true"></canvas>
-
-  <div class="minerva-loader" id="minerva-loader" aria-label="Minerva Down title sequence">
-    <div class="minerva-loader__field" aria-hidden="true"></div>
-    <div class="minerva-loader__scanlines" aria-hidden="true"></div>
-    <div class="minerva-loader__frame">
-      <p class="minerva-loader__meta">MINERVA DOWN // BOOT SEQUENCE</p>
-      <div class="minerva-loader__title" aria-hidden="true">
-        <span>MINERVA</span>
-        <span>DOWN</span>
-      </div>
-      <div class="minerva-loader__debris" aria-hidden="true"></div>
-      <div class="minerva-loader__fissure" aria-hidden="true"></div>
-      <p class="minerva-loader__status"><span id="minerva-loader-status">Awaiting carrier</span><i aria-hidden="true"></i></p>
-      <button class="minerva-loader__skip" id="minerva-loader-skip" type="button">Skip sequence <span aria-hidden="true">[ esc ]</span></button>
+  <header class="world-header">
+    <a class="brand" href="#signal" aria-label="exSifting home"><span class="brand-mark" aria-hidden="true">×</span> exSifting<span class="brand-period">.</span></a>
+    <p class="header-coordinate">FICTION FROM THE OTHER SIDE</p>
+    <div class="header-actions">
+      <button class="mode-button" type="button" data-reading aria-pressed="false">Reading mode</button>
+      <button class="index-button" type="button" data-index-toggle aria-expanded="false" aria-controls="layer-index">Layers <span aria-hidden="true">☷</span></button>
     </div>
-  </div>
-  <noscript><style>.minerva-loader { display: none; } .loader-active { overflow: auto; }</style></noscript>
-
-  <div class="site-shell">
-    <header class="site-header">
-      <a class="brand" href="#signal" aria-label="exSifting home">
-        <span class="brand-mark" aria-hidden="true">X</span>
-        <span class="brand-name">exSifting</span>
-      </a>
-      <p class="header-note">Author / speculative fiction / public signal</p>
-
-      <nav class="site-nav" aria-label="Primary navigation">
-        <a href="#signal" data-panel="0"><span>01</span> Signal</a>
-        <a href="#minerva" data-panel="1"><span>02</span> Minerva</a>
-        <a href="#about" data-panel="2"><span>03</span> Author</a>
-        <a href="#beyond" data-panel="3"><span>04</span> Projects</a>
-        <a href="#contact" data-panel="4"><span>05</span> Open channel</a>
-      </nav>
-    </header>
-
-    <main id="main-content">
-      <section id="signal" class="hero" aria-labelledby="hero-title">
-        <div class="dream-warning" aria-label="System warning">
-          <div class="dream-warning__frame">
-            <div class="dream-warning__meta" aria-hidden="true">
-              <span>Public signal</span>
-              <span>Channel 00</span>
-              <span>Status: unverified</span>
-            </div>
-            <p class="sr-only">This is not a dream.</p>
-            <div class="dream-warning__message" data-message="THIS IS NOT A DREAM" aria-hidden="true">THIS IS NOT A DREAM</div>
-            <div class="dream-warning__footer" aria-hidden="true">
-              <span>Do not attempt correction</span>
-              <span class="dream-warning__cursor"></span>
-              <span>Status: unverified</span>
-            </div>
-          </div>
+  </header>
+  <nav id="layer-index" class="layer-index" aria-label="Reality layers" hidden>
+    <p class="eyebrow">Choose your depth</p>
+    <a href="#signal"><span>00</span> The surface <span>↗</span></a>
+    <a href="#minerva"><span>01</span> Minerva Down <span>↗</span></a>
+    <a href="#about"><span>02</span> The author <span>↗</span></a>
+    <a href="#beyond"><span>03</span> The machinery <span>↗</span></a>
+    <a href="#contact"><span>04</span> Open channel <span>↗</span></a>
+    <p>Everything connects. Nothing is quite where you left it.</p>
+  </nav>
+  <main id="main-content" tabindex="-1">
+    <div class="reality-stack">
+      <section id="signal" class="reality reality--surface" data-layer="0" aria-labelledby="surface-title">
+        <div class="world-art surface-art" aria-hidden="true"></div>
+        <div class="surface-coordinate" aria-hidden="true">PUBLIC SIGNAL<br>ORIGIN UNCONFIRMED</div>
+        <div class="reality-content surface-content">
+          <p class="eyebrow"><span class="live-dot"></span> 00 / THE ACCEPTED REALITY</p>
+          <p class="dream-home" data-dream-signal data-dream-mode="signal">THIS IS NOT A DREAM</p>
+          <h1 id="surface-title">Reality is<br>a <em>thin</em> thing.</h1>
+          <p class="surface-lede">There is machinery beneath the familiar.<br>Stories are how we find the seam.</p>
+          <button type="button" class="text-action" data-descend>Pull at the world <span aria-hidden="true">↗</span></button>
         </div>
-        <div class="hero-copy">
-          <p class="kicker">Speculative fiction // signal acquired</p>
-          <h1 id="hero-title">
-            Stories about the machinery hidden beneath
-            <em>ordinary reality.</em>
-          </h1>
-          <p class="hero-lede">
-            exSifting writes mythic science fiction and system-haunted stories
-            about perception, memory, technology, dreams, infrastructure, and
-            the dangerous structures people were never meant to see.
-          </p>
-
-          <div class="hero-transition">
-            <span>02 / Current transmission</span>
-            <a class="text-link text-link-featured" href="#minerva">Minerva Down <span aria-hidden="true">→</span></a>
-            <button class="soundtrack-call" type="button" data-audio-toggle>
-              <span class="soundtrack-call__icon" aria-hidden="true">▶</span>
-              <span data-audio-toggle-label>Enter soundtrack</span>
-            </button>
-          </div>
-        </div>
+        <div class="surface-footer"><span>EXSIFTING / SPECULATIVE FICTION</span></div>
+        <div class="reality-number" aria-hidden="true">00</div>
       </section>
-
-      <section id="minerva" class="section featured-book" aria-labelledby="book-title">
-        <div class="book-panel-cover" data-book-stage>
-          <div class="minerva-stage" aria-label="Interactive three-dimensional Minerva Down cover">
-            <span class="minerva-stage__orbit minerva-stage__orbit--outer" aria-hidden="true"></span>
-            <span class="minerva-stage__orbit minerva-stage__orbit--inner" aria-hidden="true"></span>
-            <span class="minerva-stage__axis" aria-hidden="true"></span>
-            <div class="minerva-book">
-              <div class="minerva-book__face">
-                <img src="./assets/minerva-down-cover.webp" alt="Minerva Down book cover" width="400" height="600" loading="lazy" decoding="async" />
+      <section id="minerva" class="reality reality--minerva" data-layer="1" aria-labelledby="book-title">
+        <div class="world-art minerva-art" aria-hidden="true"></div>
+        <div class="reality-content minerva-content">
+          <p class="eyebrow">01 / THE FRACTURE</p>
+          <div class="book-layout">
+            <div class="book-copy">
+              <p class="chapter-note">A world underneath the world.</p>
+              <h2 id="book-title">Minerva<br><em>Down.</em></h2>
+              <p class="book-hook">Seeing clearly comes at a cost.</p>
+              <p>Ryan is caught between unstable reality, astral technology, and an unseen architecture that may be rewriting more than his perception.</p>
+              <p>A mythic science-fiction serial about identity, memory, transcendence, and the machinery beneath the world.</p>
+              <a class="text-action" href="https://www.royalroad.com/fiction/111149/minerva-down">Begin reading <span aria-hidden="true">↗</span></a>
+              <p class="book-meta">SERIALIZING · FREE ON ROYAL ROAD · LITRPG-ADJACENT</p>
+            </div>
+            <div class="book-panel-cover" data-book-stage>
+              <div class="artifact-crosshair" aria-hidden="true"></div>
+              <div class="minerva-book">
+                <div class="minerva-book__face"><img src="./assets/minerva-down-cover.webp" alt="Minerva Down book cover" width="400" height="600" /></div>
+                <span class="minerva-book__spine" aria-hidden="true">MINERVA DOWN / EXSIFTING</span>
               </div>
-              <span class="minerva-book__spine" aria-hidden="true">MINERVA DOWN</span>
-              <span class="minerva-book__pages" aria-hidden="true"></span>
-            </div>
-            <div class="minerva-stage__shadow" aria-hidden="true"></div>
-          </div>
-          <p class="minerva-stage__instruction"><span aria-hidden="true">↔</span> Move to inspect the artifact</p>
-        </div>
-        <div class="section-heading">
-          <p class="kicker">Featured fiction</p>
-          <h2 id="book-title">Minerva <em>Down</em></h2>
-          <p class="section-coordinate">Transmission 01 / last known origin: uncertain</p>
-        </div>
-
-        <div class="book-grid">
-          <div class="book-description">
-            <p class="book-hook">
-              The world is difficult enough to understand before you begin
-              seeing the systems underneath it.
-            </p>
-            <p>
-              Ryan is caught between unstable reality, astral technology, and
-              an unseen architecture that may be rewriting more than his
-              perception. What begins as a struggle to understand what is
-              happening becomes a confrontation with the machinery beneath the
-              world—and the intelligence moving through it.
-            </p>
-            <p>
-              <strong>Minerva Down</strong> is a LitRPG-adjacent, mythic
-              science-fiction serial about identity, memory, transcendence,
-              and the cost of seeing clearly.
-            </p>
-
-            <div class="book-actions">
-              <a
-                class="text-link"
-                href="https://www.royalroad.com/fiction/111149/minerva-down"
-              >
-                Begin reading on Royal Road <span aria-hidden="true">→</span>
-              </a>
+              <p class="dream-minerva" data-dream-signal data-dream-mode="minerva">THIS IS NOT A DREAM</p>
+              <span class="artifact-caption">RECOVERED OBJECT 001</span>
             </div>
           </div>
-
-          <dl class="book-details">
-            <div>
-              <dt>Status</dt>
-              <dd>Serializing</dd>
-            </div>
-            <div>
-              <dt>Genre</dt>
-              <dd>Mythic science fiction</dd>
-            </div>
-            <div>
-              <dt>Elements</dt>
-              <dd>Progression, metaphysics, strange systems</dd>
-            </div>
-            <div>
-              <dt>Access</dt>
-              <dd>Free on Royal Road</dd>
-            </div>
-          </dl>
         </div>
+        <div class="reality-number" aria-hidden="true">01</div>
       </section>
-
-      <section id="about" class="section about" aria-labelledby="about-title">
-        <div class="section-heading">
-          <p class="kicker">About the author</p>
-          <h2 id="about-title">Writing from the edge of the system.</h2>
-        </div>
-
-        <div class="about-grid">
-          <div class="about-copy">
-            <p>
-              <strong>exSifting</strong> is a speculative-fiction author drawn
-              to the places where technical systems, mythology, consciousness,
-              and ordinary human lives collide.
-            </p>
-            <p>
-              The stories tend to begin with something familiar—a network, a
-              memory, a dream, a family, a machine—and then follow the fracture
-              until the hidden infrastructure becomes visible.
-            </p>
-            <p>
-              This site is the public-facing home for those stories. The more
-              questionable materials remain one layer deeper.
-            </p>
+      <section id="about" class="reality reality--author" data-layer="2" aria-labelledby="author-title">
+        <div class="world-art author-art" aria-hidden="true"></div>
+        <div class="reality-content author-content">
+          <p class="eyebrow">02 / THE OBSERVER</p>
+          <p class="chapter-note">Someone noticed.</p>
+          <h2 id="author-title">The paradigm<br>already <em>shifted.</em></h2>
+          <div class="author-columns">
+            <aside class="author-aside">
+              <p class="author-quote">You were not<br>supposed to notice.</p>
+              <p class="dream-author" data-dream-signal data-dream-mode="quiet">THIS IS NOT A DREAM</p>
+            </aside>
+            <div>
+              <p>exSifting writes from the places where technical systems, mythology, consciousness, and ordinary human lives collide.</p>
+              <p>A network. A memory. A dream. A family. A machine. The stories follow the fracture until the hidden infrastructure becomes visible.</p>
+              <button class="text-action" type="button" data-descend>Find the machinery <span aria-hidden="true">↗</span></button>
+            </div>
           </div>
-
-          <blockquote class="pull-quote">
-            <p>“The paradigm already shifted. You were not supposed to notice.”</p>
-            <footer>— intercepted exSifting transmission</footer>
-          </blockquote>
         </div>
+        <div class="reality-number" aria-hidden="true">02</div>
       </section>
-
-      <section id="beyond" class="section beyond" aria-labelledby="beyond-title">
-        <div class="section-heading section-heading-row">
-          <div>
-            <p class="kicker">Beyond the books</p>
-            <h2 id="beyond-title">Experiments from behind the curtain.</h2>
+      <section id="beyond" class="reality reality--machines" data-layer="3" aria-labelledby="machines-title">
+        <div class="world-art machines-art" aria-hidden="true"></div>
+        <div class="reality-content machines-content">
+          <p class="eyebrow">03 / THE HIDDEN INFRASTRUCTURE</p>
+          <h2 id="machines-title">The older layer<br>is still <em>answering.</em></h2>
+          <p class="machines-intro">Fictional institutions. Interactive systems. Tools from the wrong timeline.</p>
+          <p class="dream-register" data-dream-signal data-dream-mode="unstable">THIS IS NOT A DREAM</p>
+          <div class="project-index">
+            <a href="./archive/" data-dream-excite><span class="project-code">A.01</span><span><strong>The Recovered Archive</strong><small>Original portal / uncertain provenance</small></span><span class="project-arrow">↗</span></a>
+            <a href="https://network.exsifting.com"><span class="project-code">N.03</span><span><strong>District 3 Network Console</strong><small>A networking simulation from the wrong timeline</small></span><span class="project-arrow">↗</span></a>
+            <a href="https://search.exsifting.com"><span class="project-code">S.00</span><span><strong>Search Node</strong><small>Experimental signal-discovery infrastructure</small></span><span class="project-arrow">↗</span></a>
+            <a href="./games/binary/"><span class="project-code">B.08</span><span><strong>Signal Eight</strong><small>A binary conversion drill for network operators</small></span><span class="project-arrow">↗</span></a>
           </div>
-          <p>
-            Fictional institutions, interactive systems, and practical tools
-            contaminated by the wider Sifting mythology.
-          </p>
         </div>
-
-        <div class="project-index">
-          <a class="project-entry project-entry-archive" href="./archive/"><span class="project-number">01</span><span class="project-title">The Recovered Archive</span><span class="project-description">Original exSifting portal / uncertain provenance</span><span class="card-arrow" aria-hidden="true">↗</span></a>
-          <a class="project-entry project-entry-wide" href="https://network.exsifting.com"><span class="project-number">02</span><span class="project-title">District 3 Network Console</span><span class="project-description">Browser-based networking simulation from the wrong timeline</span><span class="card-arrow" aria-hidden="true">↗</span></a>
-          <a class="project-entry project-entry-short" href="https://search.exsifting.com"><span class="project-number">03</span><span class="project-title">Search Node</span><span class="project-description">Experimental signal-discovery infrastructure</span><span class="card-arrow" aria-hidden="true">↗</span></a>
-          <a class="project-entry project-entry-wide" href="./games/binary/"><span class="project-number">04</span><span class="project-title">Signal Eight</span><span class="project-description">A binary conversion drill for network operators</span><span class="card-arrow" aria-hidden="true">↗</span></a>
-        </div>
-        <p class="archive-warning"><span>Archive boundary detected.</span> The older layer is still answering.</p>
+        <div class="reality-number" aria-hidden="true">03</div>
       </section>
-
-      <section id="contact" class="contact-band" aria-labelledby="contact-title">
-        <div>
-          <p class="kicker">Open channel</p>
-          <h2 id="contact-title">Follow the signal.</h2>
-          <p>
-            Read the current serial, contact the operator, or descend into the
-            archive at your own discretion.
-          </p>
+      <section id="contact" class="reality reality--channel" data-layer="4" aria-labelledby="channel-title">
+        <div class="world-art channel-art" aria-hidden="true"></div>
+        <div class="reality-content channel-content">
+          <p class="eyebrow">04 / NO FURTHER BOUNDARY DETECTED</p>
+          <h2 id="channel-title">Something<br>on the other side<br>is <em>listening.</em></h2>
+          <div class="channel-links">
+            <a class="text-action" href="mailto:operator@exsifting.com">Open a channel <span aria-hidden="true">↗</span></a>
+            <a href="https://www.royalroad.com/fiction/111149/minerva-down">Read Minerva Down ↗</a>
+            <a href="./extensions/">Explore extensions ↗</a>
+          </div>
+          <p class="channel-address">operator@exsifting.com</p>
+          <p class="dream-channel" data-dream-signal data-dream-mode="residual">THIS IS NOT A DREAM</p>
+          <button class="return-button" type="button" data-return>↑ Return to the surface</button>
         </div>
-
-        <div class="contact-actions">
-          <a class="text-link text-link-featured" href="https://www.royalroad.com/fiction/111149/minerva-down">Read on Royal Road <span aria-hidden="true">↗</span></a>
-          <a class="text-link text-link-quiet" href="mailto:operator@exsifting.com">operator@exsifting.com <span aria-hidden="true">↗</span></a>
-          <a class="text-link text-link-quiet" href="./extensions/">Open extensions <span aria-hidden="true">↗</span></a>
-        </div>
+        <div class="reality-number" aria-hidden="true">04</div>
       </section>
-    </main>
-
-    <nav class="panel-controls" aria-label="Panel controls">
-      <button type="button" data-panel-prev aria-label="Previous panel">←</button>
-      <span><b data-panel-current>01</b> / 05</span>
-      <button type="button" data-panel-next aria-label="Next panel">→</button>
+    </div>
+    <div class="peel-fold" aria-hidden="true"><span>THE WORLD DOES NOT END HERE</span></div>
+    <button class="peel-handle" type="button" data-peel aria-label="Peel back this layer to reveal Minerva Down">
+      <span class="peel-handle__symbol" aria-hidden="true">↙</span>
+      <span class="peel-handle__label">PULL TO<br>REVEAL</span>
+    </button>
+    <p class="next-whisper" aria-hidden="true"><span>UNDERNEATH</span><b data-next-name>Minerva Down</b></p>
+  </main>
+  <footer class="world-footer">
+    <nav class="depth-nav" aria-label="Depth navigation">
+      <button type="button" data-previous aria-label="Return to previous reality">↑</button>
+      <div class="depth-dots">
+        <a href="#signal" aria-label="Layer 0: The surface" aria-current="page"><span></span></a>
+        <a href="#minerva" aria-label="Layer 1: Minerva Down"><span></span></a>
+        <a href="#about" aria-label="Layer 2: The author"><span></span></a>
+        <a href="#beyond" aria-label="Layer 3: The machinery"><span></span></a>
+        <a href="#contact" aria-label="Layer 4: Open channel"><span></span></a>
+      </div>
+      <span class="depth-count"><b data-depth>00</b> / 04</span>
     </nav>
-
-    <footer class="site-footer">
-      <p>© <span id="year"></span> exSifting</p>
-      <p>This public node denies containing restricted Minerva materials.</p>
-    </footer>
-  </div>
-
-  <aside class="soundtrack-player" data-audio-player aria-label="Minerva Down soundtrack player">
-    <audio data-audio-source preload="metadata" src="./assets/minerva-down-soundtrack.mp3"></audio>
-    <button class="soundtrack-player__toggle" type="button" data-audio-toggle aria-label="Play Minerva Down soundtrack">
-      <span aria-hidden="true">▶</span>
-    </button>
-    <canvas class="soundtrack-player__spectrum" data-audio-spectrum width="128" height="32" aria-hidden="true"></canvas>
-    <div class="soundtrack-player__identity">
-      <span>Now transmitting</span>
-      <strong>Minerva Down</strong>
-    </div>
-    <label class="soundtrack-player__timeline">
-      <span class="sr-only">Soundtrack position</span>
-      <input data-audio-seek type="range" min="0" max="1000" value="0" step="1" />
-    </label>
-    <div class="soundtrack-player__time" aria-live="off">
-      <time data-audio-current>0:00</time>
-      <span>/</span>
-      <time data-audio-duration>—:—</time>
-    </div>
-    <button class="soundtrack-player__mute" type="button" data-audio-mute aria-label="Mute soundtrack">
-      <span aria-hidden="true">◖</span>
-    </button>
-  </aside>
-
-  <script src="./assets/minerva-system.js"></script>
-  <script src="./assets/minerva-audio.js"></script>
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-
-    (() => {
-      const loader = document.getElementById("minerva-loader");
-      const skip = document.getElementById("minerva-loader-skip");
-      const status = document.getElementById("minerva-loader-status");
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-      if (!loader || !skip || !status) return;
-
-      let closed = false;
-      const debris = loader.querySelector(".minerva-loader__debris");
-      const debrisChars = ["░", "▒", "▓", "╱", "╲", "|", "_", "/", "\\", "#", "+", "·", "∴", "0", "1"];
-      if (debris) {
-        for (let index = 0; index < 42; index += 1) {
-          const fragment = document.createElement("span");
-          fragment.textContent = debrisChars[Math.floor(Math.random() * debrisChars.length)];
-          fragment.style.left = `${18 + Math.random() * 64}%`;
-          fragment.style.top = `${31 + Math.random() * 31}%`;
-          fragment.style.setProperty("--debris-x", `${-160 + Math.random() * 320}px`);
-          fragment.style.setProperty("--debris-r", `${-80 + Math.random() * 160}deg`);
-          fragment.style.setProperty("--debris-delay", `${Math.random() * .45}s`);
-          fragment.style.setProperty("--debris-duration", `${.85 + Math.random() * .6}s`);
-          debris.appendChild(fragment);
-        }
-      }
-
-      const dismiss = (instant = false) => {
-        if (closed) return;
-        closed = true;
-        document.body.classList.remove("loader-active");
-        try { sessionStorage.setItem("exsifting-minerva-intro", "seen"); } catch (error) { /* storage may be disabled */ }
-        loader.classList.add("is-done");
-        window.setTimeout(() => {
-          loader.hidden = true;
-          loader.setAttribute("aria-hidden", "true");
-        }, instant ? 0 : 560);
-      };
-
-      let seen = false;
-      try { seen = sessionStorage.getItem("exsifting-minerva-intro") === "seen"; } catch (error) { /* storage may be disabled */ }
-      if (seen) { dismiss(true); return; }
-
-      skip.addEventListener("click", () => dismiss());
-      loader.addEventListener("click", event => { if (event.target !== skip) dismiss(); });
-      document.addEventListener("keydown", event => { if (event.key === "Escape" && !closed) dismiss(); }, { once: true });
-      if (reduceMotion.matches) {
-        dismiss(true);
-        return;
-      }
-
-      const messages = ["Awaiting carrier", "Fissure detected", "Title integrity: failing", "Transmission active"];
-      messages.forEach((message, index) => {
-        window.setTimeout(() => { if (!closed) status.textContent = message; }, 520 + index * 620);
-      });
-      window.setTimeout(() => { if (!closed) loader.classList.add("is-fissure"); }, 1450);
-      window.setTimeout(() => { if (!closed) loader.classList.add("is-collapsing"); }, 2350);
-      window.setTimeout(() => dismiss(), 3900);
-      reduceMotion.addEventListener?.("change", event => { if (event.matches) dismiss(); });
-    })();
-
-    (() => {
-      const banner = document.querySelector(".dream-warning");
-      const textEl = document.querySelector(".dream-warning__message");
-      const original = textEl?.dataset.message;
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-      const symbols = ["#", "%", "@", "!", "$", "?", "/", "\\", "*", "+", "=", "~", "¦", "†", "∆", "⊢", "₦", "Я", "Ø", "Λ", "▓", "░", "∴", "⊗", "⌁"];
-      const substitutions = {
-        A: ["4", "∆", "Λ"], E: ["3", "€"], I: ["!", "|", "¦"], O: ["0", "Ø"],
-        S: ["$", "5"], T: ["†", "+"], N: ["₦", "И"], R: ["Я"], D: ["Ð"], M: ["₥"]
-      };
-
-      if (!banner || !textEl || !original || reduceMotion.matches) return;
-
-      const wait = ms => new Promise(resolve => window.setTimeout(resolve, ms));
-      const distort = level => original.split("").map(char => {
-        if (char === " ") return char;
-        if (Math.random() < level * .7 && substitutions[char]) {
-          const list = substitutions[char];
-          return list[Math.floor(Math.random() * list.length)];
-        }
-        return Math.random() < level ? symbols[Math.floor(Math.random() * symbols.length)] : char;
-      }).join("");
-
-      async function cycle() {
-        while (!reduceMotion.matches) {
-          banner.classList.remove("dream-warning--corrupt");
-          textEl.textContent = original;
-          await wait(2400);
-          if (reduceMotion.matches) break;
-
-          banner.classList.add("dream-warning--corrupt");
-          for (let level = .08; level <= .9; level += .07) {
-            textEl.textContent = distort(level);
-            await wait(180);
-          }
-          await wait(1200);
-          for (let level = .9; level >= .12; level -= .08) {
-            textEl.textContent = distort(level);
-            await wait(130);
-          }
-          textEl.textContent = original;
-          banner.classList.remove("dream-warning--corrupt");
-          await wait(1800);
-        }
-        textEl.textContent = original;
-        banner.classList.remove("dream-warning--corrupt");
-      }
-
-      reduceMotion.addEventListener?.("change", event => {
-        if (event.matches) textEl.textContent = original;
-      });
-      cycle();
-    })();
-
-    (() => {
-      const track = document.getElementById("main-content");
-      const panels = track ? [...track.children] : [];
-      const links = [...document.querySelectorAll(".site-nav a[data-panel]")];
-      const previous = document.querySelector("[data-panel-prev]");
-      const next = document.querySelector("[data-panel-next]");
-      const current = document.querySelector("[data-panel-current]");
-      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-      if (!track || panels.length !== 5) return;
-
-      let active = 0;
-      let initialising = true;
-      let transitionTimer;
-      const hashes = ["signal", "minerva", "about", "beyond", "contact"];
-      const setActive = index => {
-        active = Math.max(0, Math.min(panels.length - 1, index));
-        links.forEach(link => link.setAttribute("aria-current", Number(link.dataset.panel) === active ? "page" : "false"));
-        if (current) current.textContent = String(active + 1).padStart(2, "0");
-        window.dispatchEvent(new CustomEvent("minerva:panel", { detail: { index: active } }));
-      };
-      const goTo = (index, updateHash = true, immediate = false) => {
-        const target = Math.max(0, Math.min(panels.length - 1, index));
-        track.classList.add("is-transitioning");
-        window.clearTimeout(transitionTimer);
-        panels[target].scrollIntoView({ behavior: immediate || reduced.matches ? "auto" : "smooth", block: "nearest", inline: "start" });
-        transitionTimer = window.setTimeout(() => track.classList.remove("is-transitioning"), reduced.matches ? 0 : 760);
-        setActive(target);
-        if (updateHash && location.hash !== `#${hashes[target]}`) history.replaceState(null, "", `#${hashes[target]}`);
-      };
-      links.forEach(link => link.addEventListener("click", event => {
-        event.preventDefault();
-        goTo(Number(link.dataset.panel));
-      }));
-      previous?.addEventListener("click", () => goTo(active - 1));
-      next?.addEventListener("click", () => goTo(active + 1));
-
-      let wheelLock = false;
-      track.addEventListener("wheel", event => {
-        if (window.matchMedia("(max-width: 780px)").matches || Math.abs(event.deltaX) >= Math.abs(event.deltaY)) return;
-        const panel = panels[active];
-        const hasVerticalOverflow = panel.scrollHeight > panel.clientHeight + 1;
-        const atTop = panel.scrollTop <= 1;
-        const atBottom = panel.scrollTop + panel.clientHeight >= panel.scrollHeight - 1;
-        const movingDown = event.deltaY > 0;
-        if (hasVerticalOverflow && ((movingDown && !atBottom) || (!movingDown && !atTop))) return;
-        if (wheelLock) return;
-        event.preventDefault();
-        wheelLock = true;
-        goTo(active + (movingDown ? 1 : -1));
-        window.setTimeout(() => { wheelLock = false; }, reduced.matches ? 180 : 720);
-      }, { passive: false });
-
-      let touchStartX = 0;
-      let touchStartY = 0;
-      track.addEventListener("touchstart", event => {
-        touchStartX = event.changedTouches[0].clientX;
-        touchStartY = event.changedTouches[0].clientY;
-      }, { passive: true });
-      track.addEventListener("touchend", event => {
-        if (window.matchMedia("(max-width: 780px)").matches) return;
-        const touch = event.changedTouches[0];
-        const dx = touch.clientX - touchStartX;
-        const dy = touch.clientY - touchStartY;
-        if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy)) goTo(active + (dx < 0 ? 1 : -1));
-      }, { passive: true });
-
-      document.addEventListener("keydown", event => {
-        if (/INPUT|TEXTAREA|SELECT/.test(event.target.tagName)) return;
-        const forward = ["ArrowRight", "ArrowDown", "PageDown"].includes(event.key);
-        const backward = ["ArrowLeft", "ArrowUp", "PageUp"].includes(event.key);
-        if (!forward && !backward) return;
-        event.preventDefault();
-        goTo(active + (forward ? 1 : -1));
-      });
-
-      window.addEventListener("hashchange", () => {
-        const requested = location.hash.slice(1);
-        const index = requested === "top" ? 0 : requested === "books" ? 1 : requested === "projects" || requested === "beyond" ? 3 : hashes.indexOf(requested);
-        if (index >= 0 && index !== active) goTo(index, false);
-      });
-
-      const observer = new IntersectionObserver(entries => {
-        if (initialising) return;
-        entries.forEach(entry => {
-          if (entry.isIntersecting && entry.intersectionRatio >= .55) {
-            const index = panels.indexOf(entry.target);
-            setActive(index);
-            if (location.hash !== `#${hashes[index]}`) history.replaceState(null, "", `#${hashes[index]}`);
-          }
-        });
-      }, { root: window.matchMedia("(min-width: 781px)").matches ? track : null, threshold: [.55] });
-      panels.forEach(panel => observer.observe(panel));
-
-      const initialHash = location.hash.slice(1);
-      const initialIndex = initialHash === "top" ? 0 : initialHash === "books" ? 1 : initialHash === "projects" || initialHash === "beyond" ? 3 : hashes.indexOf(initialHash);
-      window.setTimeout(() => {
-        if (initialIndex >= 0) goTo(initialIndex, false, true);
-        else setActive(0);
-        initialising = false;
-      }, 0);
-    })();
-  </script>
+    <aside class="soundtrack-player" data-audio-player aria-label="Minerva Down soundtrack">
+      <audio data-audio-source preload="metadata" src="./assets/minerva-down-soundtrack.mp3"></audio>
+      <button type="button" class="soundtrack-player__toggle" data-audio-toggle aria-label="Play Minerva Down soundtrack"><span aria-hidden="true">▶</span></button>
+      <canvas data-audio-spectrum width="128" height="32" aria-hidden="true"></canvas>
+      <div class="soundtrack-player__identity"><span>ORIGINAL SOUNDTRACK</span><strong>Minerva Down</strong></div>
+      <label class="soundtrack-player__timeline"><span class="sr-only">Soundtrack position</span><input data-audio-seek type="range" min="0" max="1000" value="0" step="1" /></label>
+      <time data-audio-current>0:00</time><time class="sr-only" data-audio-duration>—:—</time>
+      <button class="soundtrack-player__mute" type="button" data-audio-mute aria-label="Mute soundtrack"><span aria-hidden="true">◖</span></button>
+    </aside>
+    <button class="motion-button" type="button" data-motion aria-pressed="false">Still the world</button>
+  </footer>
+  <p class="sr-only" role="status" data-layer-status></p>
 </body>
 </html>

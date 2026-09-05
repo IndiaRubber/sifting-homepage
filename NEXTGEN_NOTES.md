@@ -1,5 +1,7 @@
 # Next-generation direction
 
+This file documents the previous spatial-audio prototype. For the current local redesign, see [REALITY_DESIGN.md](./REALITY_DESIGN.md).
+
 ## What the existing site already does well
 
 The source has a distinct editorial voice, strong in-world copy, a coherent five-panel structure, and thoughtful motion fallbacks. The Minerva boot sequence and procedural filament already establish an authored experience rather than a generic portfolio.

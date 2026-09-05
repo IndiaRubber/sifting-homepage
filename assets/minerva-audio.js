@@ -20,6 +20,8 @@
   let animationFrame;
   let smoothEnergy = 0;
   let draggingSeek = false;
+  let still = document.body.classList.contains("still") || reducedMotion.matches;
+  let lastDraw = 0;
 
   const formatTime = seconds => {
     if (!Number.isFinite(seconds)) return "—:—";
@@ -64,8 +66,8 @@
     for (let index = 0; index < bars; index += 1) {
       const sourceIndex = Math.min(frequencyData?.length - 1 || 0, Math.floor(index * 1.8));
       const level = frequencyData ? frequencyData[sourceIndex] / 255 : 0;
-      const idle = .12 + Math.sin(performance.now() * .0018 + index * .72) * .035;
-      const barHeight = Math.max(2, (audio.paused ? idle : level) * height);
+      const idle = .12 + Math.sin(index * .72) * .035;
+      const barHeight = Math.max(2, (audio.paused || still ? idle : level) * height);
       const gradient = spectrumContext.createLinearGradient(0, height - barHeight, 0, height);
       gradient.addColorStop(0, `rgba(117, 220, 235, ${.48 + level * .5})`);
       gradient.addColorStop(1, `rgba(155, 139, 231, ${.2 + level * .52})`);
@@ -74,8 +76,15 @@
     }
   };
 
-  const animate = () => {
-    if (analyser && frequencyData && !audio.paused) {
+  const startAnimation = () => {
+    if (!animationFrame && !document.hidden) animationFrame = requestAnimationFrame(animate);
+  };
+  const animate = now => {
+    animationFrame = 0;
+    if (document.hidden) return;
+    if (now - lastDraw < 32) { startAnimation(); return; }
+    lastDraw = now;
+    if (analyser && frequencyData && !audio.paused && !audio.muted && !still) {
       analyser.getByteFrequencyData(frequencyData);
       const lowBand = frequencyData.slice(1, 13);
       const average = lowBand.reduce((sum, value) => sum + value, 0) / (lowBand.length * 255);
@@ -83,7 +92,7 @@
     } else {
       smoothEnergy *= .91;
     }
-    const energy = reducedMotion.matches ? 0 : Math.min(1, smoothEnergy * 1.45);
+    const energy = still || reducedMotion.matches ? 0 : Math.min(1, smoothEnergy * 1.45);
     const rootStyle = document.documentElement.style;
     rootStyle.setProperty("--audio-energy", energy.toFixed(3));
     rootStyle.setProperty("--audio-stage-alpha", (.11 + energy * .2).toFixed(3));
@@ -102,7 +111,7 @@
     rootStyle.setProperty("--audio-player-glow-alpha", (energy * .24).toFixed(3));
     window.dispatchEvent(new CustomEvent("minerva:energy", { detail: { value: energy } }));
     drawSpectrum();
-    animationFrame = requestAnimationFrame(animate);
+    if ((!audio.paused && !still) || smoothEnergy > .001) startAnimation();
   };
 
   const togglePlayback = async () => {
@@ -111,6 +120,8 @@
       if (audioContext?.state === "suspended") await audioContext.resume();
       if (audio.paused) await audio.play();
       else audio.pause();
+      player.classList.remove("soundtrack-player--error");
+      player.setAttribute("aria-label", "Minerva Down soundtrack");
     } catch (error) {
       player.classList.add("soundtrack-player--error");
       player.setAttribute("aria-label", "Soundtrack could not start. Try the play control again.");
@@ -119,8 +130,8 @@
 
   toggles.forEach(button => button.addEventListener("click", togglePlayback));
 
-  audio.addEventListener("play", () => setToggleState(true));
-  audio.addEventListener("pause", () => setToggleState(false));
+  audio.addEventListener("play", () => { setToggleState(true); startAnimation(); });
+  audio.addEventListener("pause", () => { setToggleState(false); startAnimation(); });
   audio.addEventListener("loadedmetadata", () => {
     if (duration) duration.textContent = formatTime(audio.duration);
   });
@@ -148,6 +159,7 @@
   };
   seek.addEventListener("change", commitSeek);
   seek.addEventListener("pointerup", commitSeek);
+  seek.addEventListener("pointercancel", () => { draggingSeek = false; });
 
   mute.addEventListener("click", () => {
     audio.muted = !audio.muted;
@@ -158,6 +170,7 @@
 
   if (bookStage && !reducedMotion.matches) {
     const moveBook = event => {
+      if (still || reducedMotion.matches) return;
       const bounds = bookStage.getBoundingClientRect();
       const x = (event.clientX - bounds.left) / bounds.width - .5;
       const y = (event.clientY - bounds.top) / bounds.height - .5;
@@ -174,8 +187,24 @@
     bookStage.addEventListener("pointerleave", resetBook);
   }
 
+  window.addEventListener("minerva:motion", event => {
+    still = Boolean(event.detail.still);
+    smoothEnergy = 0;
+    startAnimation();
+  });
+  reducedMotion.addEventListener("change", event => {
+    still = event.matches || document.body.classList.contains("still");
+    startAnimation();
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+    } else startAnimation();
+  });
   if (audio.readyState >= 1 && duration) duration.textContent = formatTime(audio.duration);
   setToggleState(false);
   cancelAnimationFrame(animationFrame);
-  animationFrame = requestAnimationFrame(animate);
+  animationFrame = 0;
+  startAnimation();
 })();
