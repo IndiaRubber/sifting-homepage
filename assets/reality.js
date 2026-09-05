@@ -32,6 +32,10 @@
   let wheelAt = 0;
   let wheelCooldown = 0;
   const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+  const smoothstep = (edge0, edge1, value) => {
+    const unit = clamp((value - edge0) / (edge1 - edge0), 0, 1);
+    return unit * unit * (3 - 2 * unit);
+  };
   const rootStyle = document.documentElement.style;
   const closeMenu = () => {
     menu.hidden = true;
@@ -54,10 +58,20 @@
 
   function expose(p) {
     progress = clamp(p, 0, 1);
-    const seam = 85 - progress * 112;
+    const opening = smoothstep(.04, .6, progress);
+    const copyReveal = smoothstep(.2, .62, progress);
+    const travel = smoothstep(0, 1, progress);
+    const seam = 98.2 - travel * 125.2;
+    const cut = .5 + opening * 5.5;
+    const foldWidth = .72 + opening * 2.48;
     rootStyle.setProperty("--seam", seam + "%");
+    rootStyle.setProperty("--peel-progress", progress.toFixed(4));
+    rootStyle.setProperty("--peel-copy", copyReveal.toFixed(4));
+    rootStyle.setProperty("--fold-width", foldWidth.toFixed(3) + "%");
+    rootStyle.setProperty("--fold-turn", (-52 + opening * 24).toFixed(2) + "deg");
+    rootStyle.setProperty("--fold-skew", (-2 - opening * 6).toFixed(2) + "deg");
     layers[active].style.clipPath = active === layers.length - 1 && !busy ? "none"
-      : "polygon(0 0, " + (seam + 6) + "% 0, " + (seam - 6) + "% 100%, 0 100%)";
+      : "polygon(0 0, " + (seam + cut) + "% 0, " + (seam - cut) + "% 100%, 0 100%)";
     if (underneath !== active) {
       layers[underneath].style.transform = "scale(" + (.965 + progress * .035) + ")";
       layers[underneath].style.filter = "brightness(" + (.8 + progress * .2) + ")";

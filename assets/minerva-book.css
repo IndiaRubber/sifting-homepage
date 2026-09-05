@@ -11,6 +11,7 @@
   --book-open: 0;
   --book-page-reveal: 0;
   --book-aperture: 0;
+  --book-cover-light: 1;
   touch-action: pan-y;
   isolation: isolate;
 }
@@ -20,13 +21,14 @@
 }
 
 .minerva-book[data-minerva-book] {
+  --book-hinge-depth: 1px;
   touch-action: pan-y;
 }
 
 .minerva-book__cover {
   position: absolute;
   inset: 0;
-  z-index: 4;
+  z-index: 2;
   display: block;
   width: 100%;
   height: 100%;
@@ -42,7 +44,8 @@
   appearance: none;
   transform-origin: 0 50%;
   transform-style: preserve-3d;
-  will-change: transform, opacity;
+  filter: brightness(var(--book-cover-light));
+  will-change: transform, opacity, filter;
 }
 
 .minerva-book__cover:focus-visible {
@@ -52,6 +55,7 @@
 
 .minerva-book__cover .minerva-book__face {
   opacity: clamp(0, calc((.5 - var(--book-open)) * 8), 1);
+  transform: translateZ(.75px);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
@@ -65,7 +69,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  transform: translateZ(11px) rotateY(180deg);
+  transform: translateZ(-.75px) rotateY(180deg);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   border: 1px solid rgba(207, 236, 194, .22);
@@ -73,7 +77,7 @@
     linear-gradient(90deg, rgba(5, 12, 10, .72), transparent 12%),
     radial-gradient(circle at 68% 38%, rgba(84, 122, 105, .18), transparent 45%),
     #111a16;
-  box-shadow: 15px 20px 50px rgba(0, 0, 0, .55);
+  box-shadow: 13px 19px 42px rgba(0, 0, 0, .46);
 }
 
 .minerva-book__interior {
@@ -81,7 +85,7 @@
   inset: 0;
   right: auto;
   width: 100%;
-  z-index: 2;
+  z-index: 0;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -97,18 +101,19 @@
     #0d1512;
   box-shadow: 16px 26px 70px rgba(0, 0, 0, .68), inset 13px 0 22px rgba(0, 0, 0, .48);
   opacity: var(--book-page-reveal);
-  transform-origin: 50% 50%;
+  transform-origin: 0 50%;
   will-change: transform, opacity;
 }
 
 .minerva-book__interior::before {
   content: "";
   position: absolute;
-  inset: 5% auto 5% 7%;
-  width: 1px;
-  background: linear-gradient(transparent, rgba(188, 231, 194, .5), transparent);
-  box-shadow: 0 0 13px rgba(128, 233, 211, .32);
-  opacity: calc(.18 + (var(--book-aperture) * .82));
+  inset: 0 auto 0 0;
+  width: 10%;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, .74), rgba(3, 8, 7, .34) 35%, rgba(188, 231, 194, .13) 73%, transparent);
+  box-shadow: inset 1px 0 rgba(199, 238, 207, .2);
+  opacity: calc(.58 + (var(--book-aperture) * .28));
 }
 
 .minerva-book__interior::after {
@@ -161,7 +166,29 @@
 }
 
 .minerva-book__spine {
-  z-index: 6;
+  left: 0;
+  z-index: 1;
+  width: 22px;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 16px 5px;
+  transform-origin: 0 50%;
+  transform: translate3d(-1px, 0, var(--book-hinge-depth)) rotateY(-58deg);
+  background:
+    linear-gradient(90deg, #020504, #0b1712 22%, #183328 68%, #466b57 94%, #b5dbc0);
+  box-shadow:
+    inset -1px 0 rgba(222, 244, 214, .32),
+    -3px 0 10px rgba(0, 0, 0, .46),
+    2px 0 9px rgba(150, 222, 195, .1);
+  color: rgba(221, 236, 212, .86);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: .1em;
+  text-align: center;
+  text-orientation: mixed;
+  white-space: nowrap;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, .82);
   pointer-events: none;
 }
 

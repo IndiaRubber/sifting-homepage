@@ -18,7 +18,7 @@
   const QUIET_GLYPHS = { O: ["0"], R: ["Я"], A: ["∆"] };
   const HEADLINE_MODES = {
     signal:    { gap: [9000, 18000], hold: [2600, 4800], count: [2, 3], motion: [900, 1300], returnMotion: [1000, 1450], stagger: [35, 90], lift: [3, 7], rotate: 2 },
-    minerva:   { gap: [11000, 22000], hold: [3000, 5500], count: [2, 3], motion: [1200, 1750], returnMotion: [1300, 1800], stagger: [50, 120], lift: [5, 9], rotate: 2 },
+    minerva:   { gap: [10000, 24000], hold: [2000, 6000], count: [2, 4], motion: [900, 1600], returnMotion: [900, 1600], stagger: [50, 120], lift: [5, 9], rotate: 2 },
     quiet:     { gap: [15000, 25000], hold: [3500, 6000], count: [2, 2], motion: [1100, 1500], returnMotion: [1200, 1600], stagger: [60, 110], lift: [2, 5], rotate: 1.4 },
     unstable:  { gap: [8000, 15000], hold: [2200, 4500], count: [3, 5], motion: [800, 1250], returnMotion: [900, 1400], stagger: [30, 80], lift: [3, 8], rotate: 2.7 },
     residual:  { gap: [18000, 25000], hold: [4000, 6000], count: [2, 3], motion: [1300, 1800], returnMotion: [1400, 1800], stagger: [70, 120], lift: [3, 7], rotate: 1.5 },

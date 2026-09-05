@@ -1,0 +1,82 @@
+.minerva-title__visual {
+  display: block;
+}
+
+.minerva-title__down {
+  position: relative;
+  display: inline-block;
+  cursor: default;
+}
+
+.minerva-title__down-letter {
+  display: inline-block;
+  transform: translate3d(0, 0, 0) rotate(0deg);
+  transform-origin: 50% 72%;
+  backface-visibility: hidden;
+}
+
+.minerva-title__down.is-falling .minerva-title__down-letter {
+  will-change: transform, opacity;
+  animation: minerva-down-letter-fall var(--down-duration) cubic-bezier(.48, .04, .88, .48) var(--down-delay) both;
+}
+
+.minerva-title__down.is-gone .minerva-title__down-letter,
+.minerva-title__down.is-resetting .minerva-title__down-letter {
+  opacity: 0;
+}
+
+.minerva-title__down.is-reforming .minerva-title__down-letter {
+  will-change: transform, opacity;
+  animation: minerva-down-letter-reform var(--down-reform-duration) cubic-bezier(.22, .72, .28, 1) var(--down-reform-delay) both;
+}
+
+@keyframes minerva-down-letter-fall {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  45% {
+    transform: translate3d(calc(var(--down-drift) * .18), calc(var(--down-distance) * .18), 0) rotate(calc(var(--down-rotation) * .24));
+    opacity: 1;
+  }
+  74% {
+    transform: translate3d(calc(var(--down-drift) * .62), calc(var(--down-distance) * .6), 0) rotate(calc(var(--down-rotation) * .68));
+    opacity: .46;
+  }
+  100% {
+    transform: translate3d(var(--down-drift), var(--down-distance), 0) rotate(var(--down-rotation));
+    opacity: 0;
+  }
+}
+
+@keyframes minerva-down-letter-reform {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, var(--down-settle), 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.still .minerva-title__down-letter,
+.minerva-title__down[data-motion-paused="true"] .minerva-title__down-letter {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .minerva-title__down {
+    cursor: inherit;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .minerva-title__down-letter {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}

@@ -55,8 +55,10 @@
     const aperture = smoothstep(.84, 1, progress);
     const pageSpread = smoothstep(.25, .58, progress);
     const spreadLimit = window.innerWidth <= 760 ? 1.22 : 1.42;
-    const coverAngle = -158 * smoothstep(0, .64, progress);
+    const coverTurn = smoothstep(0, .68, progress);
+    const coverAngle = -142 * coverTurn;
     const coverOpacity = 1 - (.82 * smoothstep(.7, 1, progress));
+    const coverLight = 1 - (.18 * smoothstep(.12, .62, progress));
     const pageScale = 1 + (.18 * expansion) + ((pageFinalScale - 1.18) * aperture);
     const bookLift = -22 * expansion;
     const bookScale = 1 + (.12 * expansion);
@@ -66,12 +68,14 @@
     stage.style.setProperty("--book-aperture", aperture.toFixed(4));
     section.style.setProperty("--book-panel-dim", (smoothstep(.62, 1, progress) * .92).toFixed(4));
 
-    cover.style.transform = `rotateY(${coverAngle.toFixed(3)}deg)`;
+    stage.style.setProperty("--book-cover-light", coverLight.toFixed(4));
+
+    cover.style.transform = `translateZ(1px) rotateY(${coverAngle.toFixed(3)}deg)`;
     cover.style.opacity = coverOpacity.toFixed(4);
     book.style.setProperty("--book-lift", `${bookLift.toFixed(2)}px`);
     book.style.setProperty("--book-gesture-scale", bookScale.toFixed(4));
     page.style.width = `${(100 * (1 + ((spreadLimit - 1) * pageSpread))).toFixed(2)}%`;
-    page.style.transform = `translate3d(${(pageTravelX * aperture).toFixed(2)}px, ${(pageTravelY * aperture).toFixed(2)}px, 2px) scale(${pageScale.toFixed(4)})`;
+    page.style.transform = `translate3d(${(pageTravelX * aperture).toFixed(2)}px, ${(pageTravelY * aperture).toFixed(2)}px, 0px) scale(${pageScale.toFixed(4)})`;
 
     exposePage(progress >= .44);
     if (committing || progress >= .9) stage.dataset.bookState = "threshold";

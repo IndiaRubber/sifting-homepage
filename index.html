@@ -35,9 +35,11 @@
   <link rel="preload" as="image" href="./assets/hero-soul-thread.webp" />
   <link rel="stylesheet" href="./assets/reality.css" />
   <link rel="stylesheet" href="./assets/minerva-book.css" />
+  <link rel="stylesheet" href="./assets/minerva-heading.css" />
   <link rel="stylesheet" href="./assets/dream-signal.css" />
   <script src="./assets/reality.js" defer></script>
   <script src="./assets/minerva-book.js" defer></script>
+  <script src="./assets/minerva-heading.js" defer></script>
   <script src="./assets/minerva-audio.js" defer></script>
   <script src="./assets/dream-signal.js" defer></script>
 </head>
@@ -82,7 +84,10 @@
           <div class="book-layout">
             <div class="book-copy">
               <p class="chapter-note">A world underneath the world.</p>
-              <h2 id="book-title">Minerva<br><em data-dream-headline data-dream-mode="minerva">Down.</em></h2>
+              <h2 id="book-title" class="minerva-title">
+                <span class="sr-only">Minerva Down.</span>
+                <span class="minerva-title__visual" aria-hidden="true"><span data-dream-headline data-dream-mode="minerva">Minerva</span><br><em class="minerva-title__down" data-minerva-down>Down.</em></span>
+              </h2>
               <p class="book-hook">Seeing clearly comes at a cost.</p>
               <p>Ryan is caught between unstable reality, astral technology, and an unseen architecture that may be rewriting more than his perception.</p>
               <p>A mythic science-fiction serial about identity, memory, transcendence, and the machinery beneath the world.</p>
@@ -101,7 +106,7 @@
                 <button class="minerva-book__cover" data-book-cover type="button" aria-expanded="false" aria-label="Open a preview of Minerva Down: Prologue — Elusive Locus">
                   <span class="minerva-book__face"><img src="./assets/minerva-down-cover.webp" alt="Minerva Down book cover" width="400" height="600" draggable="false" /></span>
                 </button>
-                <span class="minerva-book__spine" aria-hidden="true">MINERVA DOWN / EXSIFTING</span>
+                <span class="minerva-book__spine" aria-hidden="true">MINERVA DOWN | exSIFTING</span>
               </div>
               <p class="minerva-book__instruction" aria-hidden="true">DRAG COVER LEFT TO OPEN</p>
               <p class="dream-minerva" data-dream-signal data-dream-mode="minerva">THIS IS NOT A DREAM</p>
