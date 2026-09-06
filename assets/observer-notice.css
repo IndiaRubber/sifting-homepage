@@ -1,0 +1,19 @@
+/* An inline seam. All geometry is overlaid: the quote never reflows. */
+.observer-notice { position: relative; display: inline-block; isolation: isolate; --density: 0; --rift-opacity: 0; --rift-width: .012; --rift-height: .25; --reveal: 0; }
+.observer-notice__trigger { display: inline; position: relative; z-index: 3; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; color: inherit; font: inherit; letter-spacing: inherit; line-height: inherit; vertical-align: baseline; cursor: text; }
+.observer-notice__word { white-space: nowrap; -webkit-text-stroke: calc(var(--density) * .38px) currentColor; }
+.observer-notice__half, .observer-notice__half > span, .observer-notice__period { display: inline-block; }
+.observer-notice__half:first-child { transform-origin: left center; }
+.observer-notice__half:last-child { transform-origin: right center; }
+.observer-notice__rift { position: absolute; z-index: 1; pointer-events: none; width: 130%; height: 245%; left: -15%; top: -72%; opacity: var(--rift-opacity); transform: scale(var(--rift-width), var(--rift-height)); filter: drop-shadow(0 0 3px #a8c8d01c); }
+.observer-notice__codex { position: absolute; z-index: 4; inset: 50% auto auto 50%; transform: translate(-50%, -50%); display: grid; place-items: center; min-height: 44px; padding: 0 .3em; font: normal max(12px, .39em)/1.3 var(--mono); letter-spacing: .14em; text-decoration: none; color: #c2d5d9; text-shadow: 0 0 8px #c6e5ec35; opacity: var(--reveal); visibility: hidden; pointer-events: none; }
+.observer-notice.is-emerging .observer-notice__codex { visibility: visible; }
+.observer-notice.is-revealed .observer-notice__codex { pointer-events: auto; }
+.observer-notice__codex:hover { color: #edf5f5; }
+.observer-notice__trigger:focus-visible, .observer-notice__codex:focus-visible { outline: 1px solid #c2d5d9; outline-offset: 4px; }
+.observer-notice.is-calm .observer-notice__rift { visibility: hidden; }
+.observer-notice.is-calm .observer-notice__codex { background: #080b0d; box-shadow: 0 0 16px 6px #080b0d; }
+.observer-transit { position: fixed; z-index: 1000; inset: 0; background: #030506; pointer-events: none; clip-path: polygon(50% 50%, 50% 50%, 50% 50%); }
+@media (forced-colors: active) {
+  .observer-notice__codex { color: LinkText; background: Canvas; text-shadow: none; }
+}

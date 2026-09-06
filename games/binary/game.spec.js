@@ -1,7 +1,7 @@
 const { test, expect } = require('playwright/test');
 
 test('accepts typed and toggled answers', async ({ page }) => {
-  await page.goto('file:///home/exsifting/Work/sifting-homepage/games/binary/index.html');
+  await page.goto('/games/binary/');
   await page.getByRole('button', { name: 'Begin drill' }).click();
 
   const first = page.locator('.challenge-row.current');

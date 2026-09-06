@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#15110f" />
+  <title>CODEX | Minerva Down</title>
+  <link rel="stylesheet" href="../../assets/reality.css" />
+  <link rel="stylesheet" href="../../assets/observer-codex.css" />
+  <script src="../../assets/observer-codex.js" defer></script>
+</head>
+<body class="codex-page">
+  <a class="skip-link" href="#codex-records">Skip to records</a>
+  <header class="codex-header">
+    <a href="../../#about" class="codex-return"><span aria-hidden="true">↖</span> Return to the surface</a>
+    <span class="codex-coordinate">02 / THE OBSERVER</span>
+  </header>
+  <main class="codex-main">
+    <div class="codex-intro">
+      <p class="eyebrow">OBSERVER ARCHIVE // CODEX</p>
+      <h1>Codex<span aria-hidden="true">.</span></h1>
+      <p class="codex-disclaimer">Definitions represent common contemporary usage. Accuracy should not be inferred from consensus.</p>
+    </div>
+    <div class="codex-tools" hidden>
+      <label for="codex-search">Search the records</label>
+      <div class="codex-search-row">
+        <input id="codex-search" type="search" placeholder="Term or phrase" autocomplete="off" spellcheck="false" aria-controls="codex-records" />
+        <button type="button" data-clear>Clear</button>
+      </div>
+    </div>
+    <nav class="codex-alphabet" aria-label="Alphabetical index">
+        <!-- CODEX_INDEX -->
+    </nav>
+    <div class="codex-register">
+      <p data-count role="status" aria-live="polite" aria-atomic="true">{{COUNT}} records</p>
+      <button type="button" data-expand hidden>Expand all</button>
+    </div>
+    <div id="codex-records" tabindex="-1">
+<!-- CODEX_ENTRIES -->
+    </div>
+    <p class="codex-empty" data-empty hidden></p>
+  </main>
+  <footer class="codex-footer"><span>MINERVA DOWN</span><span>END OF AVAILABLE RECORDS</span></footer>
+</body>
+</html>
