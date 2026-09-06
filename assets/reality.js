@@ -22,7 +22,7 @@
   let active = hashIndex();
   let underneath = Math.min(active + 1, layers.length - 1);
   let reading = false;
-  let still = reduced.matches;
+  let still = reduced.matches || body.classList.contains("still");
   let progress = 0;
   let frame = 0;
   let busy = false;
@@ -31,16 +31,61 @@
   let wheelTotal = 0;
   let wheelAt = 0;
   let wheelCooldown = 0;
+  let menuOpen = false;
+  let menuAnimation = null;
+  let worldFrame = 0, worldAt = 0;
+  const world = { x: 0, y: 0, targetX: 0, targetY: 0 };
   const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
   const smoothstep = (edge0, edge1, value) => {
     const unit = clamp((value - edge0) / (edge1 - edge0), 0, 1);
     return unit * unit * (3 - 2 * unit);
   };
   const rootStyle = document.documentElement.style;
-  const closeMenu = () => {
-    menu.hidden = true;
-    menuToggle.setAttribute("aria-expanded", "false");
-  };
+  function setMenu(open) {
+    if (open === menuOpen) return;
+    const opacity = menu.hidden ? '0' : getComputedStyle(menu).opacity;
+    const transform = menu.hidden ? 'translateY(-7px)' : getComputedStyle(menu).transform;
+    menuAnimation?.cancel();
+    menuOpen = open;
+    menuToggle.setAttribute("aria-expanded", String(open));
+    if (!open && menu.contains(document.activeElement)) menuToggle.focus({ preventScroll: true });
+    menu.inert = !open;
+    menu.setAttribute('aria-hidden', String(!open));
+    menu.hidden = false;
+    if (still) { menu.hidden = !open; return; }
+    menuAnimation = menu.animate([
+      { opacity, transform },
+      { opacity: open ? 1 : 0, transform: open ? 'translateY(0)' : 'translateY(-7px)' }
+    ], { duration: open ? 420 : 320, easing: 'cubic-bezier(.22,.68,.26,1)', fill: 'forwards' });
+    const animation = menuAnimation;
+    animation.finished.then(() => {
+      if (animation !== menuAnimation) return;
+      menu.hidden = !menuOpen;
+      animation.cancel();
+      menuAnimation = null;
+    }).catch(() => {}); // A reversal continues from its displayed position.
+  }
+  const closeMenu = () => setMenu(false);
+
+  function settleWorld(now) {
+    worldFrame = 0;
+    if (document.hidden || still) { worldAt = 0; return; }
+    const dt = Math.min(64, worldAt ? now - worldAt : 16);
+    worldAt = now;
+    const follow = 1 - Math.exp(-dt / 240);
+    world.x += (world.targetX - world.x) * follow;
+    world.y += (world.targetY - world.y) * follow;
+    const settled = Math.hypot(world.targetX - world.x, world.targetY - world.y) < .015;
+    if (settled) { world.x = world.targetX; world.y = world.targetY; }
+    rootStyle.setProperty('--world-x', world.x.toFixed(3) + 'px');
+    rootStyle.setProperty('--world-y', world.y.toFixed(3) + 'px');
+    if (!settled) worldFrame = requestAnimationFrame(settleWorld);
+    else worldAt = 0;
+  }
+  function aimWorld(x = 0, y = 0) {
+    world.targetX = x; world.targetY = y;
+    if (!worldFrame && !still && !document.hidden) worldFrame = requestAnimationFrame(settleWorld);
+  }
 
   function updateControls() {
     depthCounter.textContent = String(active).padStart(2, "0");
@@ -109,13 +154,13 @@
     }
   }
 
-  function tween(from, to, done) {
+  function tween(from, to, done, released = false) {
     cancelAnimationFrame(frame);
     const start = performance.now();
     const duration = still ? 0 : 950 * Math.max(.35, Math.abs(to - from));
     const tick = now => {
-      const elapsed = duration ? clamp((now - start) / duration, 0, 1) : 1;
-      const ease = elapsed < .5 ? 4 * elapsed ** 3 : 1 - (-2 * elapsed + 2) ** 3 / 2;
+      const elapsed = duration && !still ? clamp((now - start) / duration, 0, 1) : 1;
+      const ease = released ? 1 - (1 - elapsed) ** 3 : elapsed * elapsed * (3 - 2 * elapsed);
       expose(from + (to - from) * ease);
       if (elapsed < 1) frame = requestAnimationFrame(tick);
       else done();
@@ -152,7 +197,7 @@
   handle.addEventListener("pointerdown", event => {
     if (busy || reading || active === layers.length - 1 || event.button !== 0) return;
     event.preventDefault();
-    drag = { x: event.clientX, moved: false };
+    drag = { x: event.clientX, width: main.clientWidth, moved: false, target: 0, at: 0 };
     swallowClick = false;
     handle.setPointerCapture(event.pointerId);
     body.classList.add("is-peeling");
@@ -161,11 +206,24 @@
     if (!drag) return;
     const dx = drag.x - event.clientX;
     if (Math.abs(dx) > 6) drag.moved = true;
-    expose(clamp(dx / (main.clientWidth * .75), 0, 1));
+    drag.target = clamp(dx / (drag.width * .75), 0, 1);
+    if (!drag.at) {
+      drag.at = performance.now();
+      const follow = now => {
+        if (!drag) return;
+        const dt = Math.min(64, now - drag.at);
+        drag.at = now;
+        expose(still ? drag.target : progress + (drag.target - progress) * (1 - Math.exp(-dt / 65)));
+        if (Math.abs(drag.target - progress) > .0001) frame = requestAnimationFrame(follow);
+        else drag.at = 0;
+      };
+      frame = requestAnimationFrame(follow);
+    }
   });
   handle.addEventListener("pointerup", event => {
     if (!drag) return;
     const moved = drag.moved;
+    const intendedProgress = drag.target;
     drag = null;
     swallowClick = true;
     if (handle.hasPointerCapture(event.pointerId)) handle.releasePointerCapture(event.pointerId);
@@ -174,17 +232,20 @@
       go(active + 1);
     } else {
       busy = true;
-      const target = progress > .18 ? active + 1 : active;
-      tween(progress, target === active ? 0 : 1, () => finish(target, false));
+      const target = intendedProgress > .18 ? active + 1 : active;
+      tween(progress, target === active ? 0 : 1, () => finish(target, false), true);
     }
   });
-  handle.addEventListener("pointercancel", () => {
+  function recoverDrag() {
     if (!drag) return;
     drag = null;
     swallowClick = true;
     busy = true;
-    tween(progress, 0, () => finish(active, false));
-  });
+    tween(progress, 0, () => finish(active, false), true);
+  }
+  handle.addEventListener("pointercancel", recoverDrag);
+  handle.addEventListener("lostpointercapture", recoverDrag);
+  window.addEventListener("blur", recoverDrag);
   handle.addEventListener("click", event => {
     if (swallowClick && event.detail !== 0) { swallowClick = false; return; }
     go(active + 1, event.detail === 0);
@@ -202,27 +263,24 @@
       else go(target, event.detail === 0);
     });
   });
-  menuToggle.addEventListener("click", () => {
-    menu.hidden = !menu.hidden;
-    menuToggle.setAttribute("aria-expanded", String(!menu.hidden));
-  });
+  menuToggle.addEventListener("click", () => setMenu(!menuOpen));
   document.addEventListener("pointerdown", event => {
-    if (!menu.hidden && !menu.contains(event.target) && !menuToggle.contains(event.target)) closeMenu();
+    if (menuOpen && !menu.contains(event.target) && !menuToggle.contains(event.target)) closeMenu();
   });
   document.addEventListener("keydown", event => {
     if (event.key === "Escape") {
-      const wasOpen = !menu.hidden;
+      const wasOpen = menuOpen;
       closeMenu();
       if (wasOpen) menuToggle.focus();
       return;
     }
-    if (reading || !menu.hidden || event.target.closest("input,textarea,select,[contenteditable]") || event.altKey || event.ctrlKey || event.metaKey) return;
+    if (reading || menuOpen || event.target.closest("input,textarea,select,[contenteditable]") || event.altKey || event.ctrlKey || event.metaKey) return;
     if (["ArrowRight", "PageDown"].includes(event.key)) { event.preventDefault(); go(active + 1, true); }
     if (["ArrowLeft", "PageUp"].includes(event.key)) { event.preventDefault(); go(active - 1, true); }
   });
 
   main.addEventListener("wheel", event => {
-    if (reading || event.ctrlKey || !menu.hidden) return;
+    if (reading || event.ctrlKey || menuOpen) return;
     const content = layers[active].querySelector(".reality-content");
     const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
     const vertical = Math.abs(event.deltaY) >= Math.abs(event.deltaX);
@@ -246,6 +304,8 @@
   readToggle.addEventListener("click", () => {
     if (busy || drag) return;
     reading = !reading;
+    closeMenu();
+    aimWorld();
     body.classList.toggle("spatial", !reading);
     readToggle.setAttribute("aria-pressed", String(reading));
     readToggle.textContent = reading ? "Spatial mode" : "Reading mode";
@@ -254,21 +314,35 @@
     else window.scrollTo(0, 0);
   });
   function setStill(value) {
-    still = value;
-    body.classList.toggle("still", still);
-    motionToggle.setAttribute("aria-pressed", String(still));
-    motionToggle.textContent = still ? "Wake the world" : "Still the world";
+    still = value || reduced.matches;
+    cancelAnimationFrame(worldFrame);
+    worldFrame = worldAt = 0;
+    world.x = world.y = world.targetX = world.targetY = 0;
     rootStyle.setProperty("--world-x", "0px");
     rootStyle.setProperty("--world-y", "0px");
-    window.dispatchEvent(new CustomEvent("minerva:motion", { detail: { still } }));
+    if (still && menuAnimation) {
+      menuAnimation.cancel(); menuAnimation = null;
+      menu.hidden = !menuOpen;
+    }
   }
-  motionToggle.addEventListener("click", () => setStill(!still));
-  reduced.addEventListener("change", event => setStill(event.matches));
+  window.addEventListener("minerva:motion", event => setStill(event.detail.still));
   window.addEventListener("pointermove", event => {
     if (still || reading || drag || event.pointerType === "touch") return;
-    rootStyle.setProperty("--world-x", ((event.clientX / innerWidth - .5) * -14).toFixed(1) + "px");
-    rootStyle.setProperty("--world-y", ((event.clientY / innerHeight - .5) * -10).toFixed(1) + "px");
+    aimWorld((event.clientX / innerWidth - .5) * -14, (event.clientY / innerHeight - .5) * -10);
   }, { passive: true });
+  document.addEventListener("pointerleave", () => aimWorld());
+  window.addEventListener("blur", () => aimWorld());
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      cancelAnimationFrame(worldFrame); worldFrame = worldAt = 0;
+    } else aimWorld();
+  });
+  // Keep the same control available on smaller screens without crowding audio.
+  const compact = matchMedia('(max-width: 1100px)');
+  const footer = motionToggle.parentElement;
+  function placeMotionControl() { (compact.matches ? menu : footer).append(motionToggle); }
+  compact.addEventListener('change', placeMotionControl);
+  placeMotionControl();
   function resize() {
     rootStyle.setProperty("--fold-angle", (-Math.atan(.12 * main.clientWidth / Math.max(1, main.clientHeight)) * 180 / Math.PI) + "deg");
   }

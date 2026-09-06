@@ -20,7 +20,7 @@
   white-space: nowrap;
 }
 .dream-visual { display: inline; }
-.dream-word { display: inline-block; white-space: nowrap; }
+.dream-word { position: relative; display: inline-block; white-space: nowrap; }
 .dream-letter {
   display: inline-grid;
   grid-template-areas: "glyph";

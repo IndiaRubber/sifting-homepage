@@ -88,7 +88,9 @@
     book.style.setProperty("--book-lift", `${bookLift.toFixed(2)}px`);
     book.style.setProperty("--book-gesture-scale", bookScale.toFixed(4));
     page.style.width = `${(100 * spreadFactor).toFixed(2)}%`;
-    const spreadOffset = pageBaseWidth ? ((pageBaseWidth * spreadFactor) - pageBaseWidth) * .5 * bookScale : 0;
+    // The preview grows away from the hinge; centering it early places its
+    // first characters behind the open cover. Center only as the aperture expands.
+    const spreadOffset = pageBaseWidth ? ((pageBaseWidth * spreadFactor) - pageBaseWidth) * .5 * bookScale * expansion : 0;
     page.style.transform = `translate3d(${((pageTravelX * aperture) - spreadOffset).toFixed(2)}px, ${(pageTravelY * aperture).toFixed(2)}px, 8px) scale(${pageScale.toFixed(4)})`;
 
     const focusActive = progress >= .68;

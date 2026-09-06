@@ -19,9 +19,9 @@
   const HEADLINE_MODES = {
     signal:    { gap: [9000, 18000], hold: [2600, 4800], count: [2, 3], motion: [900, 1300], returnMotion: [1000, 1450], stagger: [35, 90], lift: [3, 7], rotate: 2 },
     minerva:   { gap: [10000, 24000], hold: [2000, 6000], count: [2, 4], motion: [900, 1600], returnMotion: [900, 1600], stagger: [50, 120], lift: [5, 9], rotate: 2 },
-    quiet:     { gap: [15000, 25000], hold: [3500, 6000], count: [2, 2], motion: [1100, 1500], returnMotion: [1200, 1600], stagger: [60, 110], lift: [2, 5], rotate: 1.4 },
+    quiet:     { gap: [28000, 46000], hold: [2500, 4000], count: [2, 2], motion: [1400, 1800], returnMotion: [1500, 1900], stagger: [60, 110], lift: [1, 3], rotate: .8 },
     unstable:  { gap: [8000, 15000], hold: [2200, 4500], count: [3, 5], motion: [800, 1250], returnMotion: [900, 1400], stagger: [30, 80], lift: [3, 8], rotate: 2.7 },
-    residual:  { gap: [18000, 25000], hold: [4000, 6000], count: [2, 3], motion: [1300, 1800], returnMotion: [1400, 1800], stagger: [70, 120], lift: [3, 7], rotate: 1.5 },
+    residual:  { gap: [30000, 48000], hold: [3000, 5000], count: [2, 2], motion: [1600, 2100], returnMotion: [1700, 2200], stagger: [70, 120], lift: [2, 4], rotate: .8 },
     archive:   { gap: [13000, 23000], hold: [3000, 5500], count: [2, 4], motion: [950, 1500], returnMotion: [1050, 1600], stagger: [30, 120], lift: [3, 7], rotate: 2.2 },
     extension: { gap: [18000, 25000], hold: [3500, 5500], count: [2, 2], motion: [1200, 1600], returnMotion: [1300, 1700], stagger: [70, 120], lift: [2, 4], rotate: 1.2 }
   };
@@ -35,7 +35,7 @@
   let frame = 0, refreshFrame = 0, lastFrame = 0, lastMeasure = 0;
   let lastActivity = performance.now();
   let pointer = { x: -10000, y: -10000 };
-  const stopped = () => reduced.matches || motionOff;
+  const stopped = () => reduced.matches || motionOff || coarse.matches;
 
   document.querySelectorAll("[data-dream-signal]").forEach(el => {
     if (el.dataset.dreamReady) return;
@@ -72,10 +72,10 @@
           incomingGlyph: "", morphing: false, morphStart: 0, morphDuration: 0,
           morphAxis: "y", morphDirection: 1, morphDistance: 1,
           active: false, strength: 0, target: 0,
-          scatter: 0, scatterTarget: 0, scatterX: 0, scatterY: 0, scatterRotate: 0,
+          scatter: 0, scatterPull: 0, scatterTarget: 0, scatterX: 0, scatterY: 0, scatterRotate: 0,
           scatterStretch: 0, scatterReturn: range(...config.scatter.recover), hoverTried: false, hoverGlyph: false,
           homeX: 0, homeY: 0,
-          next: range(1500, config.gap[1]), recover: 0, phase: range(0, Math.PI * 2),
+          next: range(config.gap[0] + 4000, config.gap[1] + 6000), recover: 0, phase: range(0, Math.PI * 2),
           dx: 0, dy: 0, stretch: 0, faded: false
         });
       }
@@ -207,7 +207,7 @@
     instance.el.dataset.dreamPaused = "true";
     instance.chars.forEach(ch => {
       ch.active = false; ch.target = 0; ch.strength = 0;
-      ch.scatter = 0; ch.scatterTarget = 0; ch.hoverTried = false; ch.hoverGlyph = false;
+      ch.scatter = 0; ch.scatterPull = 0; ch.scatterTarget = 0; ch.hoverTried = false; ch.hoverGlyph = false;
       ch.next = instance.time + range(...instance.config.gap);
       setGlyph(instance, ch, ch.canonical, true);
       ch.span.removeAttribute("style");
@@ -290,8 +290,8 @@
       const raw = Math.min(1, (instance.time - ch.motionStart) / ch.motionDuration);
       const eased = raw * raw * (3 - 2 * raw);
       const x = ch.startX + (ch.targetX - ch.startX) * eased;
-      const y = Math.sin(Math.PI * raw) * ch.crossY;
-      const rotation = Math.sin(Math.PI * raw) * ch.rotation;
+      const y = Math.sin(Math.PI * eased) * ch.crossY;
+      const rotation = Math.sin(Math.PI * eased) * ch.rotation;
       ch.span.style.transform = `translate3d(${x.toFixed(2)}px,${y.toFixed(2)}px,0) rotate(${rotation.toFixed(2)}deg)`;
       ch.span.style.zIndex = ch.crossY < 0 ? "2" : "1";
       if (raw < 1) complete = false;
@@ -326,11 +326,9 @@
       // second glitch cycle competing beneath it.
       ch.active = false;
       ch.target = 0;
-      ch.strength = 0;
       ch.faded = false;
       ch.hoverGlyph = false;
       ch.next = instance.time + range(...instance.config.gap);
-      if (ch.morphing) settleGlyph(ch, ch.glyph);
       if (ch.glyph !== ch.canonical) setGlyph(instance, ch, ch.canonical);
       ch.scatterX = range(-1, 1) * scatter.x;
       ch.scatterY = range(.38, 1) * scatter.y;
@@ -361,13 +359,15 @@
       const r = instance.el.getBoundingClientRect();
       instance.rect = r;
       const visible = !instance.el.closest("[inert]") && r.bottom > 0 && r.top < spatialBottom && r.right > 0 && r.left < innerWidth;
-      if (instance.visible && !visible) publishTension(instance, 0);
+      if (instance.visible && !visible) reset(instance);
       instance.visible = visible;
+      instance.el.dataset.dreamPaused = String(stopped());
       if (visible) {
+        const homes = new Map([...instance.el.querySelectorAll('.dream-word')].map(word => [word, word.getBoundingClientRect()]));
         instance.chars.forEach(ch => {
-          const characterRect = ch.span.getBoundingClientRect();
-          ch.homeX = characterRect.left + characterRect.width / 2;
-          ch.homeY = characterRect.top + characterRect.height / 2;
+          const home = homes.get(ch.span.parentElement);
+          ch.homeX = home.left + ch.span.offsetLeft + ch.span.offsetWidth / 2;
+          ch.homeY = home.top + ch.span.offsetTop + ch.span.offsetHeight / 2;
         });
       } else {
         instance.disintegrating = false;
@@ -447,12 +447,15 @@
         if (!ch.active && idle) ch.next -= dt * influence * .5;
         ch.strength += (ch.target - ch.strength) * (1 - Math.exp(-dt / (ch.active ? 900 : 1300)));
         if (!ch.active && !ch.hoverGlyph && !ch.morphing && ch.strength < .12) setGlyph(instance, ch, ch.canonical);
-        const scatterTarget = scatterProximity(instance, ch);
+        const proximityTarget = scatterProximity(instance, ch);
+        // Two stages give disturbance an onset of tension and a soft release.
+        ch.scatterPull += (proximityTarget - ch.scatterPull) * (1 - Math.exp(-dt / 150));
+        const scatterTarget = ch.scatterPull;
         ch.scatterTarget = scatterTarget;
         const scatterDuration = scatterTarget > ch.scatter ? config.scatter.attack : ch.scatterReturn;
         const scatterDivisor = scatterTarget > ch.scatter ? 3 : 6;
         ch.scatter += (scatterTarget - ch.scatter) * (1 - Math.exp(-dt / (scatterDuration / scatterDivisor)));
-        if (!instance.disintegrating && ch.scatter < .003) {
+        if (!instance.disintegrating && ch.scatter < .003 && ch.scatterPull < .003) {
           ch.scatter = 0;
           ch.hoverTried = false;
         }
@@ -509,7 +512,8 @@
     headlineInstances.forEach(instance => {
       if (!instance.visible) return;
       instance.time += dt;
-      if (instance.state === "idle" && instance.time >= instance.next) beginHeadlineMotion(instance, false);
+      if (instance.state === "idle" && instance.time >= instance.next &&
+        (instance.mode !== "residual" || now - lastActivity > 6500)) beginHeadlineMotion(instance, false);
       else if (instance.state === "holding" && instance.time >= instance.holdUntil) beginHeadlineMotion(instance, true);
       if (["outbound", "returning"].includes(instance.state)) renderHeadlineMotion(instance);
     });
@@ -543,7 +547,8 @@
       if (stopped() || coarse.matches || event.pointerType === "touch") return;
       pointer = { x: event.clientX, y: event.clientY };
       instance.disintegrating = true;
-      seedScatter(instance);
+      // Re-entry resumes the same physical trajectories until they settle.
+      if (instance.chars.every(ch => ch.scatter < .003)) seedScatter(instance);
       schedule();
     });
     instance.el.addEventListener("pointermove", event => {
@@ -578,6 +583,7 @@
     queueRefresh();
   }
   reduced.addEventListener("change", motionChanged);
+  coarse.addEventListener("change", motionChanged);
   window.addEventListener("minerva:motion", event => { motionOff = Boolean(event.detail.still); motionChanged(); });
   document.addEventListener("visibilitychange", () => {
     cancelAnimationFrame(frame); frame = 0; lastFrame = 0;

@@ -1,4 +1,10 @@
 .site-nav a[aria-current="page"] { color: var(--text); background: rgba(117, 220, 235, 0.08); }
+.extension-actions .button:is(:hover, :focus-visible) { transform: none; }
+.site-nav a, .extension-actions .button, .extension-actions .text-link { transition-duration: 420ms; transition-timing-function: cubic-bezier(.22,.68,.26,1); }
+.motion-button { padding: 12px 0; color: var(--muted); background: none; border: 0; font: inherit; cursor: pointer; }
+.still *, .still *::before, .still *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+html:has(.still) { scroll-behavior: auto; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
 .extensions-hero { max-width: 920px; padding: 110px 0 95px; }
 .extensions-hero h1 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(3.6rem, 9vw, 7.8rem); font-weight: 500; line-height: .9; letter-spacing: -.065em; }
 .extensions-hero h1 em { color: transparent; font-weight: inherit; background: linear-gradient(90deg, var(--cyan), var(--green), var(--violet)); background-clip: text; -webkit-background-clip: text; }

@@ -31,6 +31,14 @@ This version is awaiting design approval. No deployment settings were changed.
 
 No framework, package install, or build command is required.
 
+### Motion cohesion
+
+`assets/world-motion.js` shares **Still the world** across Home, Archive, and Extensions using a local browser preference. System reduced motion always takes precedence. On smaller screens, the homepage's motion control lives in **Layers**. Touch devices keep signal and headline lettering canonical; book previews, reading mode, audio, and navigation remain available.
+
+The background follows with a short settling delay and returns to rest when the pointer leaves. Signal re-entry resumes its existing scatter trajectories, and leaving a layer restores its decorative text. The Archive's transmission fade pauses outside the viewport or in a hidden tab. Project links retain their layout while their contents move slightly at different rates.
+
+`tests/world-cohesion.spec.js` covers signal recovery, menu reversal and keyboard focus, peel reversal, book-preview clearance, cross-route motion preferences, reduced motion, and mobile reading controls.
+
 
 ## Included artwork
 

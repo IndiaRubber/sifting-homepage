@@ -30,8 +30,9 @@ nav a:hover { color: var(--cyan); background: rgba(110, 231, 255, 0.09); }
 .terminal-body { padding: 20px; font-family: Consolas, "Courier New", monospace; color: #c9f7ff; min-height: 275px; }
 .terminal-body p { margin: 0 0 16px; }
 .terminal-body span { color: var(--green); }
-.blink { animation: blink 1.15s steps(2, start) infinite; }
-@keyframes blink { 50% { opacity: 0.35; } }
+.blink { animation: blink 9s cubic-bezier(.4,0,.3,1) infinite; animation-play-state: paused; }
+.blink[data-in-view="true"] { animation-play-state: running; }
+@keyframes blink { 0%, 65%, 100% { opacity: 1; } 82% { opacity: .66; } }
 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 22px; }
 .panel, .split-card, .status-strip { border: 1px solid var(--line); border-radius: 22px; background: var(--panel); backdrop-filter: blur(14px); box-shadow: var(--shadow); }
 .panel { padding: 24px; }
@@ -50,4 +51,17 @@ nav a:hover { color: var(--cyan); background: rgba(110, 231, 255, 0.09); }
 .status-strip span { margin-top: 6px; color: var(--muted); }
 footer { padding: 26px 4px 38px; display: flex; justify-content: space-between; gap: 18px; color: var(--muted); font-size: 0.92rem; }
 .footer-note { color: rgba(159, 177, 201, 0.72); }
+nav a, .button, .access-list a { transition: color 420ms cubic-bezier(.22,.68,.26,1), background 420ms, border-color 520ms, box-shadow 650ms; }
+:focus-visible { outline: 2px solid var(--cyan); outline-offset: 5px; }
+.motion-button { align-self: center; padding: 12px 0; color: var(--muted); background: none; border: 0; font: inherit; cursor: pointer; white-space: nowrap; }
+.world-hidden .blink { animation-play-state: paused; }
+.still .blink { animation: none; }
+html:has(.still) { scroll-behavior: auto; }
+.still *, .still *::before, .still *::after { transition: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .blink { animation: none; }
+  *, *::before, *::after { transition: none !important; }
+}
+@media (max-width: 880px) { .topbar, .panel, .split-card, .status-strip { backdrop-filter: none; } }
 @media (max-width: 880px) { .topbar, footer { flex-direction: column; align-items: flex-start; } nav { justify-content: flex-start; } .hero, .grid, .split-card, .status-strip { grid-template-columns: 1fr; } .hero { min-height: auto; padding: 54px 0 28px; } .status-strip div { border-right: 0; border-bottom: 1px solid var(--line); } .status-strip div:last-child { border-bottom: 0; } .access-list a { align-items: flex-start; flex-direction: column; } }

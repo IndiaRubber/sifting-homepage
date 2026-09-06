@@ -174,6 +174,10 @@
     if (document.hidden) reset();
   });
   window.addEventListener("pagehide", clearTimers);
+  // A hidden layer returns intact; no fallen word or unfinished timer survives it.
+  new MutationObserver(() => {
+    if (down.closest('[inert]')) reset();
+  }).observe(down.closest('[data-layer]'), { attributes: true, attributeFilter: ['inert'] });
 
   reset();
 })();
