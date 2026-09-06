@@ -28,17 +28,29 @@
   let pageTravelX = 0;
   let pageTravelY = 0;
   let pageFinalScale = 2.8;
+  let pageBaseWidth = 0;
 
   const measureAperture = () => {
+    const previousTransform = page.style.transform;
+    const previousWidth = page.style.width;
+    page.style.transform = "none";
+    page.style.width = "100%";
     const rect = page.getBoundingClientRect();
-    if (!rect.width || !rect.height) return;
+    if (!rect.width || !rect.height) {
+      page.style.transform = previousTransform;
+      page.style.width = previousWidth;
+      return;
+    }
     pageTravelX = (window.innerWidth / 2) - (rect.left + rect.width / 2);
     pageTravelY = (window.innerHeight / 2) - (rect.top + rect.height / 2);
+    pageBaseWidth = page.offsetWidth;
     pageFinalScale = clamp(
-      Math.max(window.innerWidth / rect.width, window.innerHeight / rect.height) * 1.06,
-      2.4,
-      5.2
+      Math.min(window.innerWidth / rect.width, window.innerHeight / rect.height) * .88,
+      1.6,
+      2.4
     );
+    page.style.transform = previousTransform;
+    page.style.width = previousWidth;
   };
 
   const exposePage = (exposed) => {
@@ -62,6 +74,7 @@
     const pageScale = 1 + (.18 * expansion) + ((pageFinalScale - 1.18) * aperture);
     const bookLift = -22 * expansion;
     const bookScale = 1 + (.12 * expansion);
+    const spreadFactor = 1 + ((spreadLimit - 1) * pageSpread);
 
     stage.style.setProperty("--book-open", progress.toFixed(4));
     stage.style.setProperty("--book-page-reveal", reveal.toFixed(4));
@@ -74,8 +87,20 @@
     cover.style.opacity = coverOpacity.toFixed(4);
     book.style.setProperty("--book-lift", `${bookLift.toFixed(2)}px`);
     book.style.setProperty("--book-gesture-scale", bookScale.toFixed(4));
-    page.style.width = `${(100 * (1 + ((spreadLimit - 1) * pageSpread))).toFixed(2)}%`;
-    page.style.transform = `translate3d(${(pageTravelX * aperture).toFixed(2)}px, ${(pageTravelY * aperture).toFixed(2)}px, 0px) scale(${pageScale.toFixed(4)})`;
+    page.style.width = `${(100 * spreadFactor).toFixed(2)}%`;
+    const spreadOffset = pageBaseWidth ? ((pageBaseWidth * spreadFactor) - pageBaseWidth) * .5 * bookScale : 0;
+    page.style.transform = `translate3d(${((pageTravelX * aperture) - spreadOffset).toFixed(2)}px, ${(pageTravelY * aperture).toFixed(2)}px, 8px) scale(${pageScale.toFixed(4)})`;
+
+    const focusActive = progress >= .68;
+    stage.classList.toggle("is-focus", focusActive);
+    document.body.classList.toggle("minerva-book-focus", focusActive);
+    if (progress < .38) {
+      stage.classList.remove("is-preview-interactive");
+    } else if (!stage.classList.contains("is-preview-interactive")) {
+      window.setTimeout(() => {
+        if (progress >= .38) stage.classList.add("is-preview-interactive");
+      }, 0);
+    }
 
     exposePage(progress >= .44);
     if (committing || progress >= .9) stage.dataset.bookState = "threshold";
@@ -244,6 +269,13 @@
     if (committing) return;
     measureAperture();
     animateTo(progress >= .38 ? 0 : .62, still ? 0 : 460);
+  });
+
+  stage.addEventListener("click", (event) => {
+    if (committing || progress >= .38 || event.target.closest("[data-book-continue]")) return;
+    if (event.target.closest("[data-minerva-book], .minerva-book__instruction")) {
+      animateTo(.62, still ? 0 : 460);
+    }
   });
 
   continueLink.addEventListener("click", (event) => {

@@ -14,6 +14,46 @@
   --book-cover-light: 1;
   touch-action: pan-y;
   isolation: isolate;
+  overflow: visible;
+  transition: z-index 0s linear;
+}
+
+.book-panel-cover[data-book-stage][data-book-state="preview"],
+.book-panel-cover[data-book-stage][data-book-state="threshold"],
+.book-panel-cover[data-book-stage].is-committing {
+  z-index: 40;
+}
+
+.book-panel-cover[data-book-state="preview"] .minerva-book__interior,
+.book-panel-cover[data-book-state="threshold"] .minerva-book__interior,
+.book-panel-cover.is-committing .minerva-book__interior {
+  z-index: 3;
+  transform-style: preserve-3d;
+}
+
+.book-panel-cover[data-book-state="preview"] .minerva-book__continue,
+.book-panel-cover[data-book-state="threshold"] .minerva-book__continue,
+.book-panel-cover.is-committing .minerva-book__continue {
+  transform: translateZ(6px);
+}
+
+.book-panel-cover.is-preview-interactive .minerva-book__cover {
+  pointer-events: none;
+}
+
+.book-panel-cover[data-book-stage].is-focus {
+  z-index: 60;
+}
+
+.minerva-book-focus .world-header,
+.minerva-book-focus .world-footer {
+  opacity: .68;
+  transition: opacity .3s ease;
+}
+
+.minerva-book-focus .peel-handle {
+  opacity: .48;
+  transition: opacity .3s ease;
 }
 
 .book-panel-cover[data-book-stage] .artifact-crosshair {
@@ -101,7 +141,7 @@
     #0d1512;
   box-shadow: 16px 26px 70px rgba(0, 0, 0, .68), inset 13px 0 22px rgba(0, 0, 0, .48);
   opacity: var(--book-page-reveal);
-  transform-origin: 0 50%;
+  transform-origin: 50% 50%;
   will-change: transform, opacity;
 }
 
